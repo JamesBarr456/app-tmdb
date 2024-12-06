@@ -10,9 +10,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        outfit: ["var(--font-outfit)", "sans-serif"], // Conecta la fuente cargada por @next/font
+        outfit: ["var(--font-outfit)"],
       },
       colors: {
+        /* custom colors */
+        "bright-red": "#FC4747",
+        "dark-blue": "#10141E",
+        "greyish-blue": "#5A698F",
+        "semi-dark-blue": "#161D2F",
+        /* ---------- */
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
