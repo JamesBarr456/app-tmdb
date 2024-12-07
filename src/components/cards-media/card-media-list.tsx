@@ -1,4 +1,4 @@
-import { Film, Tv } from "lucide-react";
+import { Film, ImageIcon, Tv } from "lucide-react";
 
 import { BookmarkButton } from "../buttons-media/button-favorite";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface MediaListCardProps {
   title: string;
-  backdropPath: string;
+  backdropPath: string | null;
   releaseYear: string;
   mediaType: "movie" | "tv";
 }
@@ -24,17 +24,27 @@ export const MediaListCard = ({
 }: MediaListCardProps) => {
   const MediaIcon = mediaType === "movie" ? Film : Tv;
 
+  const imageUrl = backdropPath
+    ? `https://image.tmdb.org/t/p/w500/${backdropPath}`
+    : null;
+
   return (
     <article className="text-white space-y-2 font-outfit">
-      <div className="relative w-[280px] h-[174px]">
-        <Image
-          alt={title}
-          src={`https://image.tmdb.org/t/p/w500/${backdropPath}`}
-          className="rounded-xl object-cover"
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 280px"
-        />
+      <div className="relative w-full h-40 bg-gray-800 rounded-xl overflow-hidden">
+        {imageUrl ? (
+          <Image
+            alt={title}
+            src={imageUrl}
+            className="rounded-xl object-cover"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 280px"
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full">
+            <ImageIcon className="w-12 h-12 text-gray-400" />
+          </div>
+        )}
         <BookmarkButton top="4" />
       </div>
 
@@ -53,7 +63,7 @@ export const MediaListCard = ({
         </div>
       </div>
 
-      <h2 className="text-2xl font-medium leading-tight line-clamp-1">
+      <h2 className="text-lg lg:text-2xl font-medium leading-tight line-clamp-1">
         {title}
       </h2>
     </article>

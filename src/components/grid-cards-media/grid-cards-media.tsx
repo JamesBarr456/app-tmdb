@@ -11,7 +11,7 @@ export const GridMediaCards = ({ mediaType, items, title_section }: Props) => {
   return (
     <section className="space-y-5">
       <h1 className="lg:text-3xl text-white">{title_section}</h1>
-      <div className="grid lg:grid-cols-5 gap-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {items.map((item) => (
           <MediaListCard
             key={item.id}
