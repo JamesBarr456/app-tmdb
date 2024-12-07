@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
+import { outfit } from "@/fonts";
 
 export const metadata: Metadata = {
   title: "Entertainment",
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`antialiased`}>{children}</body>
+      <body className={`${outfit.variable} antialiased`}>{children}</body>
     </html>
   );
 }

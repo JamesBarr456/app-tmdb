@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        outfit: ["var(--font-outfit)"],
+        outfit: ["var(--font-outfit)", "sans-serif"],
       },
       colors: {
         /* custom colors */

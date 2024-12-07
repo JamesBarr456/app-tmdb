@@ -18,7 +18,7 @@ export const Navbar = () => {
           />
         </picture>
         {/* Pages */}
-        <ul className="flex gap-6 md:gap-8 lg:flex-col">
+        <ul className="flex gap-6 md:gap-8 lg:flex-col lg:gap-12">
           {routes.map((route) => (
             <li key={route.path}>
               <Link href={route.path}>
