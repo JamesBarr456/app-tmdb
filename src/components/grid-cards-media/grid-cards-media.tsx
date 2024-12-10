@@ -15,6 +15,7 @@ export const GridMediaCards = ({ mediaType, items, title_section }: Props) => {
         {items.map((item) => (
           <MediaListCard
             key={item.id}
+            id_media={item.id}
             title={
               mediaType === "movie"
                 ? (item as Movie).title

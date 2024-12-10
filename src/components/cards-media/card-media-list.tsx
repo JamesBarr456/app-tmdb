@@ -2,9 +2,11 @@ import { Film, ImageIcon, Tv } from "lucide-react";
 
 import { BookmarkButton } from "../buttons-media/button-favorite";
 import Image from "next/image";
+import { PlayInfoButton } from "../buttons-media/button-play-info";
 import { cn } from "@/lib/utils";
 
 interface MediaListCardProps {
+  id_media: number;
   title: string;
   backdropPath: string | null;
   releaseYear: string;
@@ -17,6 +19,7 @@ const MEDIA_TYPE_LABELS = {
 } as const;
 
 export const MediaListCard = ({
+  id_media,
   title,
   backdropPath,
   releaseYear,
@@ -30,7 +33,7 @@ export const MediaListCard = ({
 
   return (
     <article className="text-white space-y-2 font-outfit">
-      <div className="relative w-full h-40 bg-gray-800 rounded-xl overflow-hidden">
+      <div className="relative w-full h-40 bg-gray-800 rounded-xl overflow-hidden  group">
         {imageUrl ? (
           <Image
             alt={title}
@@ -46,6 +49,9 @@ export const MediaListCard = ({
           </div>
         )}
         <BookmarkButton top="4" />
+        <div className="opacity-0 -z-10 transition-opacity duration-300  group-hover:opacity-100  group-hover:z-10">
+          <PlayInfoButton id={id_media} media_type={mediaType} />
+        </div>
       </div>
 
       <div className="flex items-center gap-2 text-xs text-gray-300">

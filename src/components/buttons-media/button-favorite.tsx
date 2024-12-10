@@ -23,7 +23,7 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
     <Button
       size={"icon"}
       onClick={toggleBookmark}
-      className={`absolute rounded-full bg-black/50 p-2 right-${right} top-${top}`}
+      className={`absolute z-20 rounded-full bg-black/50 p-2 right-${right} top-${top}`}
       aria-label="Toggle Bookmark"
     >
       <Image

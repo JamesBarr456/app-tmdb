@@ -15,6 +15,14 @@ class TMDBService {
     return moviesAPI.getTrending();
   }
 
+  async getDetailsMovie(id: number) {
+    return moviesAPI.getDetails(id);
+  }
+
+  async getCreditsMovie(id: number) {
+    return moviesAPI.getCredits(id);
+  }
+
   // TV Shows
   async getPopularTVShows() {
     return tvAPI.getPopular();
@@ -57,6 +65,25 @@ class TMDBService {
           topRated: topRatedTVShows.results.slice(0, 10),
           popular: popularTVShows.results.slice(0, 10),
           trending: trendingTVShows.results.slice(0, 10),
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching home page data:", error);
+      throw error;
+    }
+  }
+
+  async getMoviePageData(id: number) {
+    try {
+      const [detailsMovies, creditsMovies] = await Promise.all([
+        this.getDetailsMovie(id),
+        this.getCreditsMovie(id),
+      ]);
+
+      return {
+        movie: {
+          details: detailsMovies,
+          credits: creditsMovies.cast,
         },
       };
     } catch (error) {
