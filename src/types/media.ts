@@ -19,6 +19,7 @@ export interface Media {
   popularity: number;
   poster_path: string;
   vote_average: number;
+  status: string;
 }
 
 export interface Movie extends Media {
@@ -26,7 +27,6 @@ export interface Movie extends Media {
   release_date: string; // Formato ISO (YYYY-MM-DD)
   title: string;
   runtime: number;
-  status: string; // Ejemplo: "Released"
   tagline: string;
 }
 
@@ -34,6 +34,8 @@ export interface TVShow extends Media {
   name: string;
   first_air_date: string; // Formato ISO (YYYY-MM-DD)
   original_name: string;
+  tagline: string;
+  last_air_date: string;
 }
 
 export interface CastMember {

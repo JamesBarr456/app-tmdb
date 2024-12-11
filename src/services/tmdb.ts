@@ -38,7 +38,17 @@ class TMDBService {
   async getTrendingTVShows() {
     return tvAPI.getTrending();
   }
+  async getDetailsTVShows(id: number) {
+    return tvAPI.getDetails(id);
+  }
 
+  async getCreditsTVShows(id: number) {
+    return tvAPI.getCredits(id);
+  }
+
+  async getDiscoverTVShows({ page, genre }: { page?: string; genre?: string }) {
+    return tvAPI.getDiscover({ genre, page });
+  }
   // Home Page Data
   async getHomePageData() {
     try {
@@ -100,6 +110,41 @@ class TMDBService {
   async getMoviesPageData({ page, genre }: { page?: string; genre?: string }) {
     try {
       const discoverMovies = await this.getDiscoverMovie({ page, genre });
+
+      return {
+        movie: {
+          discoverMovies: discoverMovies,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching home page data:", error);
+      throw error;
+    }
+  }
+  //TV Page Data
+  async getTVShowPageData(id: number) {
+    try {
+      const [detailsTV, creditsTV] = await Promise.all([
+        this.getDetailsTVShows(id),
+        this.getCreditsTVShows(id),
+      ]);
+
+      return {
+        movie: {
+          details: detailsTV,
+          credits: creditsTV.cast,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching home page data:", error);
+      throw error;
+    }
+  }
+
+  //TVs Page Data
+  async getTVShowsPageData({ page, genre }: { page?: string; genre?: string }) {
+    try {
+      const discoverMovies = await this.getDiscoverTVShows({ page, genre });
 
       return {
         movie: {
