@@ -48,7 +48,7 @@ export const MediaListCard = ({
             <ImageIcon className="w-12 h-12 text-gray-400" />
           </div>
         )}
-        <BookmarkButton top="4" />
+        <BookmarkButton top="4" right="4" />
         <div className="opacity-0 -z-10 transition-opacity duration-300  group-hover:opacity-100  group-hover:z-10">
           <PlayInfoButton id={id_media} media_type={mediaType} />
         </div>

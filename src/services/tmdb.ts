@@ -23,6 +23,9 @@ class TMDBService {
     return moviesAPI.getCredits(id);
   }
 
+  async getDiscoverMovie({ page, genre }: { page?: string; genre?: string }) {
+    return moviesAPI.getDiscover({ genre, page });
+  }
   // TV Shows
   async getPopularTVShows() {
     return tvAPI.getPopular();
@@ -73,6 +76,7 @@ class TMDBService {
     }
   }
 
+  //Movie Page Data
   async getMoviePageData(id: number) {
     try {
       const [detailsMovies, creditsMovies] = await Promise.all([
@@ -84,6 +88,22 @@ class TMDBService {
         movie: {
           details: detailsMovies,
           credits: creditsMovies.cast,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching home page data:", error);
+      throw error;
+    }
+  }
+
+  //Movies Page Data
+  async getMoviesPageData({ page, genre }: { page?: string; genre?: string }) {
+    try {
+      const discoverMovies = await this.getDiscoverMovie({ page, genre });
+
+      return {
+        movie: {
+          discoverMovies: discoverMovies,
         },
       };
     } catch (error) {

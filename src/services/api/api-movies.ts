@@ -24,4 +24,14 @@ export const moviesAPI = {
     tmdbApi
       .get<TMDBApiCastResponse>(`/movie/${id}/credits`)
       .then((response) => response.data),
+  getDiscover: ({ page = "1", genre }: { page?: string; genre?: string }) =>
+    tmdbApi
+      .get<TMDBApiResponse<Movie>>(`/discover/movie`, {
+        params: {
+          page,
+          sort_by: "popularity.desc",
+          with_genres: genre,
+        },
+      })
+      .then((response) => response.data),
 };

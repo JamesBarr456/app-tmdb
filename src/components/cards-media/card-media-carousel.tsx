@@ -45,7 +45,7 @@ export const MediaListCarouselCard = ({
             <ImageIcon className="w-12 h-12 text-gray-400" />
           </div>
         )}
-        <BookmarkButton top="4" />
+        <BookmarkButton top="4" right="4" />
         <div className="absolute bottom-4 left-4">
           <div className="flex items-center gap-2 text-xs text-gray-300">
             <span>{releaseYear}</span>

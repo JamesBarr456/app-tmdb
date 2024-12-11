@@ -1,6 +1,7 @@
 export interface TMDBApiResponse<T> {
   page: number;
   results: T[];
+  total_pages: number;
 }
 export interface TMDBApiCastResponse {
   cast: CastMember[];

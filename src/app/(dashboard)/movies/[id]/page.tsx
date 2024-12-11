@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { BadgeList } from "@/components/badges/badge-list";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { tmdbService } from "@/services/tmdb";
@@ -99,36 +99,6 @@ export function MovieInfo({
           <p className={`text-app-pure-white ${className}`}>{value}</p>
         </div>
       ))}
-    </div>
-  );
-}
-
-interface BadgeItem {
-  id: number;
-  name: string;
-}
-
-interface BadgeListProps {
-  items: BadgeItem[];
-  title?: string;
-}
-
-export function BadgeList({ items, title }: BadgeListProps) {
-  return (
-    <div className="mb-6">
-      {title && <h3 className="mb-2 md:text-2xl">{title}</h3>}
-      <div className="flex flex-wrap gap-2">
-        {items.map(({ id, name }) => (
-          <Badge
-            key={id}
-            className="px-1 text-base bg-bright-red"
-            variant="default"
-            aria-label={`Toggle ${name}`}
-          >
-            {name}
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 }

@@ -1,4 +1,9 @@
+import { SpinnerLoading } from "@/components/loading/custom-loading";
+
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
-  return <p className="text-white">Loading...</p>;
+  return (
+    <div className="flex justify-center items-center h-screen w-full">
+      <SpinnerLoading color="text-bright-red" height={40} width={40} />
+    </div>
+  );
 }
