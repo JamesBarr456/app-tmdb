@@ -19,16 +19,10 @@ export const Navbar = () => {
         </picture>
         {/* Pages */}
         <ul className="flex gap-6 md:gap-8 lg:flex-col lg:gap-12">
-          {routes.map((route) => (
-            <li key={route.path}>
-              <Link href={route.path}>
-                <Image
-                  alt="Icon-route-entertaiment"
-                  src={route.icon}
-                  width={20}
-                  height={20}
-                  sizes="(max-width: 768px) 20px"
-                />
+          {routes.map(({icon:Icon, path}) => (
+            <li key={path} className="hover:text-white hover:scale-125 transition-all ease-out duration-300">
+              <Link href={path} >
+               <Icon />
               </Link>
             </li>
           ))}

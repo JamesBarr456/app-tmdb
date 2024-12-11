@@ -2,6 +2,7 @@ import { BadgeList } from "@/components/badges/badge-list";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { tmdbService } from "@/services/tmdb";
+import YouTubeTrailer from "@/components/others/youtube-trailer";
 
 interface Props {
   params: {
@@ -11,7 +12,7 @@ interface Props {
 export default async function Page({ params }: Props) {
   const { id } = await params;
   const {
-    movie: { credits, details },
+    movie: { credits, details, videos },
   } = await tmdbService.getMoviePageData(+id);
 
   const imageUrl = details.poster_path
@@ -23,7 +24,8 @@ export default async function Page({ params }: Props) {
     name: credit.original_name,
   }));
   return (
-    <section className="flex flex-col items-center text-white sm:mx-8 md:mx-0 md:flex-row md:items-start lg:justify-center">
+    <>
+      <section className="flex flex-col items-center text-white sm:mx-8 md:mx-0 md:flex-row md:items-start lg:justify-center">
       <picture className="px-20 text-center md:pl-0 md:pr-8 lg:w-2/5">
         {imageUrl ? (
           <Image
@@ -68,6 +70,11 @@ export default async function Page({ params }: Props) {
         <BadgeList items={creditsWithNames} />
       </div>
     </section>
+    <section className="flex items-center justify-center">
+    <YouTubeTrailer trailer_key={videos }/>
+    </section>
+    </>
+  
   );
 }
 

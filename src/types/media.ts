@@ -7,6 +7,10 @@ export interface TMDBApiCastResponse {
   cast: CastMember[];
 }
 
+export interface TMDBApiVideoResponse {
+  results: MediaVideo[];
+}
+
 export interface Media {
   id: number;
   backdrop_path: string;
@@ -41,4 +45,12 @@ export interface TVShow extends Media {
 export interface CastMember {
   id: number;
   original_name: string;
+}
+
+export interface MediaVideo {
+  name: string; 
+  key: string;
+  site: string;
+  size: number; 
+  type: string;
 }
