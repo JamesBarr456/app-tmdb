@@ -13,18 +13,6 @@ export const PlayInfoButton = ({ id, media_type }: Props) => {
       <Button
         size="lg"
         className="rounded-full w-[60px] h-[60px] p-0 flex items-center justify-center"
-      >
-        <Image
-          alt="Play-Media"
-          src="/icon/icon-play.svg"
-          width={24}
-          height={24}
-          className="w-6 h-6"
-        />
-      </Button>
-      <Button
-        size="lg"
-        className="rounded-full w-[60px] h-[60px] p-0 flex items-center justify-center"
         asChild
       >
         <Link href={`/${media}/${id}`}>

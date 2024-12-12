@@ -1,8 +1,10 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { BadgeList } from "@/components/badges/badge-list";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
-import { tmdbService } from "@/services/tmdb";
 import YouTubeTrailer from "@/components/others/youtube-trailer";
+import { tmdbService } from "@/services/tmdb";
 
 interface Props {
   params: {
@@ -25,56 +27,67 @@ export default async function Page({ params }: Props) {
   }));
   return (
     <>
-      <section className="flex flex-col items-center text-white sm:mx-8 md:mx-0 md:flex-row md:items-start lg:justify-center">
-      <picture className="px-20 text-center md:pl-0 md:pr-8 lg:w-2/5">
-        {imageUrl ? (
-          <Image
-            alt={details.title}
-            src={imageUrl}
-            className="rounded-xl"
-            width={500}
-            height={250}
-            priority
-            sizes="(max-width: 768px) 100vw, 500px"
-          />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full">
-            <ImageIcon className="w-12 h-12 text-gray-400" />
+      <section className="flex flex-col items-center text-white sm:mx-8 md:mx-0 md:flex-row md:items-start lg:justify-evenly">
+        <picture className="relative ">
+          {imageUrl ? (
+            <Image
+              alt={details.title}
+              src={imageUrl}
+              width={500}
+              height={750}
+              priority
+              sizes="(max-width: 768px) 100vw, 250px"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full">
+              <ImageIcon className="w-12 h-12 text-gray-400" />
+            </div>
+          )}
+        </picture>
+        <div className="px-5 lg:w-2/5">
+          <div className="mb-2 mt-6 text-center md:mb-4 md:mt-0 md:text-left">
+            <h1 className="mb-1 text-3xl font-light md:mb-3 md:text-5xl">
+              {details.title}
+            </h1>
+            <h2 className="text-app-placeholder text-xs font-light sm:text-sm md:text-lg">
+              {details.tagline}
+            </h2>
           </div>
-        )}
-      </picture>
-      <div className="md:w-3/5">
-        <div className="mb-2 mt-6 text-center md:mb-4 md:mt-0 md:text-left">
-          <h1 className="mb-1 text-3xl font-light md:mb-3 md:text-5xl">
-            {details.title}
-          </h1>
-          <h2 className="text-app-placeholder text-xs font-light sm:text-sm md:text-lg">
-            {details.tagline}
-          </h2>
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="w-full mb-6">
+              <TabsTrigger value="overview" className="flex-1">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="trailer" className="flex-1">
+                Trailer
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview" className="mt-0">
+              <MovieInfo
+                runtime={details.runtime}
+                language={details.original_language}
+                releaseDate={details.release_date}
+                status={details.status}
+              />
+
+              <BadgeList items={details.genres} title="Genres" />
+
+              <div className="mb-6">
+                <h2 className="mb-1 md:text-2xl">Synopsis</h2>
+                <p className="font-light md:text-lg">{details.overview}</p>
+              </div>
+
+              <BadgeList items={creditsWithNames} title="Cast" />
+            </TabsContent>
+            <TabsContent value="trailer" className="mt-0">
+              <div className="flex items-center justify-center">
+                <YouTubeTrailer trailer_key={videos} />
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <MovieInfo
-          runtime={details.runtime}
-          language={details.original_language}
-          releaseDate={details.release_date}
-          status={details.status}
-        />
-
-        <BadgeList items={details.genres} title="Genres" />
-
-        <div className="mb-6">
-          <h2 className="mb-1 md:text-2xl">Synopsis</h2>
-          <p className="font-light md:text-lg">{details.overview}</p>
-        </div>
-
-        <BadgeList items={creditsWithNames} />
-      </div>
-    </section>
-    <section className="flex items-center justify-center">
-    <YouTubeTrailer trailer_key={videos }/>
-    </section>
+      </section>
     </>
-  
   );
 }
 
