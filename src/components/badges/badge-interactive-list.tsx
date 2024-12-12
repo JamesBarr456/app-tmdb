@@ -5,7 +5,6 @@ import { useState, useTransition } from "react";
 
 import { Badge } from "../ui/badge";
 import { SpinnerLoading } from "../loading/custom-loading";
-import { X } from "lucide-react";
 import clsx from "clsx";
 
 interface BadgeItem {
@@ -36,21 +35,11 @@ export function BadgeInteractiveList({
       const currentGenre = params.get("with_genres");
 
       if (currentGenre === id.toString()) {
-        params.delete("with_genres");
+        params.delete("with_genres"); // Eliminar género si está seleccionado
       } else {
-        params.set("with_genres", id.toString());
+        params.set("with_genres", id.toString()); // Seleccionar género
       }
 
-      router.push(`?${params.toString()}`);
-      setPendingId(null);
-    });
-  };
-
-  const removeGenre = () => {
-    setPendingId(selectedGenre);
-    startTransition(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete("with_genres");
       router.push(`?${params.toString()}`);
       setPendingId(null);
     });
@@ -69,15 +58,15 @@ export function BadgeInteractiveList({
             <Badge
               key={id}
               className={clsx(
-                "text-base cursor-pointer relative pr-8",
+                "text-base cursor-pointer relative",
                 selectedGenre === id
-                  ? "bg-bright-red hover:bg-bright-red/60"
-                  : "bg-green-500 hover:bg-green-500/60",
+                  ? "bg-bright-red hover:bg-greyish-blue"
+                  : "bg-greyish-blue hover:bg-bright-red",
                 isLoading && "opacity-70"
               )}
               variant="default"
               aria-label={`Select ${name}`}
-              onClick={() => toggleGenre(id)}
+              onClick={() => toggleGenre(id)} // Manejo del clic para selección/deselección
             >
               <span className="flex items-center gap-2">
                 {name}
@@ -85,15 +74,6 @@ export function BadgeInteractiveList({
                   <SpinnerLoading color="text-white" height={20} width={20} />
                 )}
               </span>
-              {selectedGenre === id && !isLoading && (
-                <X
-                  className="w-4 h-4 absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeGenre();
-                  }}
-                />
-              )}
             </Badge>
           );
         })}

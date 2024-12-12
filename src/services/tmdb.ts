@@ -53,6 +53,10 @@ class TMDBService {
   async getDiscoverTVShows({ page, genre }: { page?: string; genre?: string }) {
     return tvAPI.getDiscover({ genre, page });
   }
+
+   async getVideosTVShows(id: number) {
+    return tvAPI.getTrailer(id);
+  }
   // Home Page Data
   async getHomePageData() {
     try {
@@ -131,15 +135,17 @@ class TMDBService {
   //TV Page Data
   async getTVShowPageData(id: number) {
     try {
-      const [detailsTV, creditsTV] = await Promise.all([
+      const [detailsTV, creditsTV, videosTV] = await Promise.all([
         this.getDetailsTVShows(id),
         this.getCreditsTVShows(id),
+         this.getVideosTVShows(id)
       ]);
-
+  const trailer = videosTV.results.find(video => video.site === 'YouTube' && video.type === 'Trailer');
       return {
-        movie: {
+        tv: {
           details: detailsTV,
           credits: creditsTV.cast,
+          videos: trailer ? trailer.key : null
         },
       };
     } catch (error) {

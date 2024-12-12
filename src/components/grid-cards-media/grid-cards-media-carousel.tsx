@@ -47,6 +47,7 @@ export const GridMediaCarouselCards = ({
                 className="basis-full sm:basis-1/2  lg:basis-1/3 xl:basis-1/4"
               >
                 <MediaListCarouselCard
+                id_media={item.id}
                   title={
                     mediaType === "movie"
                       ? (item as Movie).title

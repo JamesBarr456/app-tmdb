@@ -1,4 +1,4 @@
-import { TMDBApiCastResponse, TMDBApiResponse, TVShow } from "@/types/media";
+import { TMDBApiCastResponse, TMDBApiResponse, TMDBApiVideoResponse, TVShow } from "@/types/media";
 
 import { tmdbApi } from "@/config/axios";
 
@@ -32,5 +32,9 @@ export const tvAPI = {
           with_genres: genre,
         },
       })
+      .then((response) => response.data),
+  getTrailer: (id: number) =>
+    tmdbApi
+      .get<TMDBApiVideoResponse>(`/tv/${id}/videos`)
       .then((response) => response.data),
 };

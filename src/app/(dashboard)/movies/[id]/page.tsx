@@ -53,7 +53,7 @@ export default async function Page({ params }: Props) {
          
 
           {/* Movie Info */}
-          <div className="w-full md:w-2/3 lg:w-3/4">
+          <article className="w-full md:w-2/3 lg:w-3/4">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{details.title}</h1>
             
             <div className="flex flex-wrap gap-4 mb-6">
@@ -87,7 +87,7 @@ export default async function Page({ params }: Props) {
                 />
               </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>
