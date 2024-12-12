@@ -1,10 +1,9 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { BadgeList } from "@/components/badges/badge-list";
 import Image from "next/image";
-import { ImageIcon } from "lucide-react";
-import YouTubeTrailer from "@/components/others/youtube-trailer";
+import { Calendar, ImageIcon, Play, Timer } from "lucide-react";
+
 import { tmdbService } from "@/services/tmdb";
+import { BadgeList } from "@/components/badges/badge-list";
 
 interface Props {
   params: {
@@ -26,99 +25,75 @@ export default async function Page({ params }: Props) {
     name: credit.original_name,
   }));
   return (
-    <>
-      <section className="flex flex-col items-center text-white sm:mx-8 md:mx-0 md:flex-row md:items-start lg:justify-evenly">
-        <picture className="relative ">
-          {imageUrl ? (
+   <section className="relative min-h-screen  text-white">
+  
+      {/* Content */}
+      <div className="relative z-10 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Poster */}
+
+            <picture>
+              {imageUrl ? (
             <Image
               alt={details.title}
               src={imageUrl}
               width={500}
               height={750}
               priority
-              sizes="(max-width: 768px) 100vw, 250px"
+                className="rounded-2xl"
+              sizes="(max-width: 768px) 100vw, 500px"
             />
           ) : (
             <div className="flex items-center justify-center w-full h-full">
               <ImageIcon className="w-12 h-12 text-gray-400" />
             </div>
           )}
-        </picture>
-        <div className="px-5 lg:w-2/5">
-          <div className="mb-2 mt-6 text-center md:mb-4 md:mt-0 md:text-left">
-            <h1 className="mb-1 text-3xl font-light md:mb-3 md:text-5xl">
-              {details.title}
-            </h1>
-            <h2 className="text-app-placeholder text-xs font-light sm:text-sm md:text-lg">
-              {details.tagline}
-            </h2>
+            </picture>
+           
+         
+
+          {/* Movie Info */}
+          <div className="w-full md:w-2/3 lg:w-3/4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{details.title}</h1>
+            
+            <div className="flex flex-wrap gap-4 mb-6">
+              <span className="px-3 py-1 bg-white/10 rounded-full flex items-center gap-2"><Calendar size={16}/>{details.release_date}</span>
+              <span className="px-3 py-1 bg-white/10 rounded-full flex items-center gap-2"><Timer size={16}/>{details.runtime} min</span>
+              <span className="px-3 py-1 bg-yellow-500/90 rounded-full flex items-center gap-1">
+                ★ {details.vote_average} / 10
+              </span>
+            </div>
+
+             {/* Genders Section */}
+             <BadgeList items={details.genres} title="Genres" />
+<h3 className="mb-2 md:text-2xl font-bold ">Synopsis</h3>
+            <p className="text-lg mb-6 text-gray-300 ">{details.overview}</p>
+
+             {/* Cast Section */}
+             <BadgeList items={creditsWithNames} title="Cast" />
+
+            {/* Trailer Section */}
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Play className="w-6 h-6" />
+                Official Trailer
+              </h2>
+              <div className="aspect-video w-full">
+                <iframe
+                  src={`https://www.youtube.com/embed/${videos}`}
+                  title="Movie Trailer"
+                  className="w-full h-full rounded-lg"
+                  allowFullScreen
+                />
+              </div>
+            </div>
           </div>
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="w-full mb-6">
-              <TabsTrigger value="overview" className="flex-1">
-                Overview
-              </TabsTrigger>
-              <TabsTrigger value="trailer" className="flex-1">
-                Trailer
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="mt-0">
-              <MovieInfo
-                runtime={details.runtime}
-                language={details.original_language}
-                releaseDate={details.release_date}
-                status={details.status}
-              />
-
-              <BadgeList items={details.genres} title="Genres" />
-
-              <div className="mb-6">
-                <h2 className="mb-1 md:text-2xl">Synopsis</h2>
-                <p className="font-light md:text-lg">{details.overview}</p>
-              </div>
-
-              <BadgeList items={creditsWithNames} title="Cast" />
-            </TabsContent>
-            <TabsContent value="trailer" className="mt-0">
-              <div className="flex items-center justify-center">
-                <YouTubeTrailer trailer_key={videos} />
-              </div>
-            </TabsContent>
-          </Tabs>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
-interface MovieInfoProps {
-  runtime: number;
-  language: string;
-  releaseDate: string;
-  status: string;
-}
 
-export function MovieInfo({
-  runtime,
-  language,
-  releaseDate,
-  status,
-}: MovieInfoProps) {
-  const infoItems = [
-    { label: "Length", value: `${runtime} min` },
-    { label: "Language", value: language, className: "capitalize" },
-    { label: "Year", value: releaseDate },
-    { label: "Status", value: status },
-  ];
 
-  return (
-    <div className="mb-6 flex items-center justify-between text-center text-sm lg:w-10/12 lg:text-lg">
-      {infoItems.map(({ label, value, className = "" }) => (
-        <div key={label}>
-          <p className="text-app-placeholder mb-1">{label}</p>
-          <p className={`text-app-pure-white ${className}`}>{value}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
+

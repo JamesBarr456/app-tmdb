@@ -20,7 +20,7 @@ export const Navbar = () => {
         {/* Pages */}
         <ul className="flex gap-6 md:gap-8 lg:flex-col lg:gap-12">
           {routes.map(({icon:Icon, path}) => (
-            <li key={path} className="hover:text-white hover:scale-125 transition-all ease-out duration-300">
+            <li key={path} className="hover:text-white text-greyish-blue hover:scale-125 transition-all ease-out duration-300">
               <Link href={path} >
                <Icon />
               </Link>
@@ -36,7 +36,7 @@ export const Navbar = () => {
             height={32}
             sizes="(max-width: 768px) 32px"
             priority
-            className="border-2 border-white rounded-full"
+            className="border-2 border-white rounded-full opacity-0"
           />
         </picture>
       </div>

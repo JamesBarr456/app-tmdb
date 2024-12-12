@@ -19,12 +19,12 @@ export function BadgeList({
 }: BadgeListProps) {
   return (
     <div className="mb-6">
-      {title && <h3 className="mb-2 md:text-2xl">{title}</h3>}
+      {title && <h3 className="mb-2 md:text-2xl font-bold ">{title}</h3>}
       <div className={clsx("", badgeContainerClassName)}>
         {items.map(({ id, name }) => (
           <Badge
             key={id}
-            className="text-base bg-green-500 cursor-pointer"
+            className="text-base bg-greyish-blue hover:bg-bright-red cursor-pointer"
             variant="default"
             aria-label={`Toggle ${name}`}
           >
