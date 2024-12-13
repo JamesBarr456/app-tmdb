@@ -1,3 +1,4 @@
+import { tmdbApi } from "@/config/axios";
 import { moviesAPI } from "./api/api-movies";
 import { tvAPI } from "./api/api-tv";
 
@@ -167,6 +168,25 @@ class TMDBService {
     } catch (error) {
       console.error("Error fetching home page data:", error);
       throw error;
+    }
+  }
+
+  async getFoundMedia({ page, searchMedia }: { page?: string; searchMedia: string }){
+    try {
+      const response = await tmdbApi.get(`/discover/movie`, {
+        params: {
+          page,
+          query:searchMedia
+        },
+      })
+      .then((response) => response.data);
+    
+      return {
+        search : response
+      }
+
+    } catch (error) {
+      throw new Error((error as Error).message)
     }
   }
 }
