@@ -1,19 +1,54 @@
-import { tmdbApi } from "@/config/axios";
-import { moviesAPI } from "./api/api-movies";
-import { tvAPI } from "./api/api-tv";
+import { Media, Movie } from '@/types/media';
+
+import { TMDBApiResponse } from '../types/media';
+import { moviesAPI } from './api/api-movies';
+import { tmdbApi } from '@/config/axios';
+import { tvAPI } from './api/api-tv';
 
 class TMDBService {
   // Movies
   async getTopRatedMovies() {
-    return moviesAPI.getTopRated();
+    try {
+      const response = await tmdbApi
+        .get<TMDBApiResponse<Movie>>('/movie/top_rated')
+        .then((response) => response.data);
+
+      return response;
+    } catch (error) {
+      console.error('Error in getTopRatedMovies:', error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
+    }
   }
 
   async getPopularMovies() {
-    return moviesAPI.getPopular();
+    try {
+      const response = await tmdbApi
+        .get<TMDBApiResponse<Movie>>('/movie/popular')
+        .then((response) => response.data);
+
+      return response;
+    } catch (error) {
+      console.error('Error in getPopularMovies:', error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
+    }
   }
 
   async getTrendingMovies() {
-    return moviesAPI.getTrending();
+    try {
+      const response = await tmdbApi
+        .get<TMDBApiResponse<Movie>>('/trending/movie/week')
+        .then((response) => response.data);
+      return response;
+    } catch (error) {
+      console.error('Error in getTrendingMovies:', error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
+    }
   }
 
   async getDetailsMovie(id: number) {
@@ -55,7 +90,7 @@ class TMDBService {
     return tvAPI.getDiscover({ genre, page });
   }
 
-   async getVideosTVShows(id: number) {
+  async getVideosTVShows(id: number) {
     return tvAPI.getTrailer(id);
   }
   // Home Page Data
@@ -90,7 +125,7 @@ class TMDBService {
         },
       };
     } catch (error) {
-      console.error("Error fetching home page data:", error);
+      console.error('Error fetching home page data:', error);
       throw error;
     }
   }
@@ -101,19 +136,21 @@ class TMDBService {
       const [detailsMovies, creditsMovies, videosMovies] = await Promise.all([
         this.getDetailsMovie(id),
         this.getCreditsMovie(id),
-        this.getVideosMovie(id)
+        this.getVideosMovie(id),
       ]);
 
-      const trailer = videosMovies.results.find(video => video.site === 'YouTube' && video.type === 'Trailer');
+      const trailer = videosMovies.results.find(
+        (video) => video.site === 'YouTube' && video.type === 'Trailer'
+      );
       return {
         movie: {
           details: detailsMovies,
           credits: creditsMovies.cast,
-          videos: trailer ? trailer.key : null
+          videos: trailer ? trailer.key : null,
         },
       };
     } catch (error) {
-      console.error("Error fetching home page data:", error);
+      console.error('Error fetching home page data:', error);
       throw error;
     }
   }
@@ -129,7 +166,7 @@ class TMDBService {
         },
       };
     } catch (error) {
-      console.error("Error fetching home page data:", error);
+      console.error('Error fetching home page data:', error);
       throw error;
     }
   }
@@ -139,18 +176,20 @@ class TMDBService {
       const [detailsTV, creditsTV, videosTV] = await Promise.all([
         this.getDetailsTVShows(id),
         this.getCreditsTVShows(id),
-         this.getVideosTVShows(id)
+        this.getVideosTVShows(id),
       ]);
-  const trailer = videosTV.results.find(video => video.site === 'YouTube' && video.type === 'Trailer');
+      const trailer = videosTV.results.find(
+        (video) => video.site === 'YouTube' && video.type === 'Trailer'
+      );
       return {
         tv: {
           details: detailsTV,
           credits: creditsTV.cast,
-          videos: trailer ? trailer.key : null
+          videos: trailer ? trailer.key : null,
         },
       };
     } catch (error) {
-      console.error("Error fetching home page data:", error);
+      console.error('Error fetching home page data:', error);
       throw error;
     }
   }
@@ -166,27 +205,36 @@ class TMDBService {
         },
       };
     } catch (error) {
-      console.error("Error fetching home page data:", error);
+      console.error('Error fetching home page data:', error);
       throw error;
     }
   }
 
-  async getFoundMedia({ page, searchMedia }: { page?: string; searchMedia: string }){
+  async getFoundMedia({
+    page,
+    searchMedia,
+  }: {
+    page?: string;
+    searchMedia: string;
+  }) {
     try {
-      const response = await tmdbApi.get(`/discover/movie`, {
-        params: {
-          page,
-          query:searchMedia
-        },
-      })
-      .then((response) => response.data);
-    
-      return {
-        search : response
-      }
+      const response = await tmdbApi
+        .get<TMDBApiResponse<Media>>(`/search/multi`, {
+          params: {
+            page,
+            query: searchMedia,
+          },
+        })
+        .then((response) => response.data);
 
+      return {
+        data: response,
+      };
     } catch (error) {
-      throw new Error((error as Error).message)
+      console.error('Error in getFoundMedia:', error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
     }
   }
 }

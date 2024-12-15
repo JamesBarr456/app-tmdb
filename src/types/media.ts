@@ -24,6 +24,7 @@ export interface Media {
   poster_path: string;
   vote_average: number;
   status: string;
+  media_type: 'movie' | 'tv';
 }
 
 export interface Movie extends Media {
@@ -49,9 +50,9 @@ export interface CastMember {
 }
 
 export interface MediaVideo {
-  name: string; 
+  name: string;
   key: string;
   site: string;
-  size: number; 
+  size: number;
   type: string;
 }
