@@ -1,98 +1,37 @@
-import { Media, Movie } from '@/types/media';
+import {
+  Media,
+  Movie,
+  TMDBApiCastResponse,
+  TMDBApiVideoResponse,
+  TVShow,
+} from '@/types/media';
 
 import { TMDBApiResponse } from '../types/media';
-import { moviesAPI } from './api/api-movies';
+import { TMDB_ROUTES } from './tmdb-routes';
 import { tmdbApi } from '@/config/axios';
-import { tvAPI } from './api/api-tv';
 
 class TMDBService {
-  // Movies
-  async getTopRatedMovies() {
+  async getMediaData<T>({
+    endpoint,
+    params,
+  }: {
+    endpoint: string;
+    params?: Record<string, string | number | boolean | undefined>;
+  }): Promise<T> {
     try {
       const response = await tmdbApi
-        .get<TMDBApiResponse<Movie>>('/movie/top_rated')
+        .get<T>(endpoint, { params })
         .then((response) => response.data);
 
       return response;
     } catch (error) {
-      console.error('Error in getTopRatedMovies:', error);
+      console.error(`Error in getMediaData (${endpoint}):`, error);
       throw new Error(
         (error as Error).message || 'An unexpected error occurred.'
       );
     }
   }
 
-  async getPopularMovies() {
-    try {
-      const response = await tmdbApi
-        .get<TMDBApiResponse<Movie>>('/movie/popular')
-        .then((response) => response.data);
-
-      return response;
-    } catch (error) {
-      console.error('Error in getPopularMovies:', error);
-      throw new Error(
-        (error as Error).message || 'An unexpected error occurred.'
-      );
-    }
-  }
-
-  async getTrendingMovies() {
-    try {
-      const response = await tmdbApi
-        .get<TMDBApiResponse<Movie>>('/trending/movie/week')
-        .then((response) => response.data);
-      return response;
-    } catch (error) {
-      console.error('Error in getTrendingMovies:', error);
-      throw new Error(
-        (error as Error).message || 'An unexpected error occurred.'
-      );
-    }
-  }
-
-  async getDetailsMovie(id: number) {
-    return moviesAPI.getDetails(id);
-  }
-
-  async getCreditsMovie(id: number) {
-    return moviesAPI.getCredits(id);
-  }
-
-  async getDiscoverMovie({ page, genre }: { page?: string; genre?: string }) {
-    return moviesAPI.getDiscover({ genre, page });
-  }
-
-  async getVideosMovie(id: number) {
-    return moviesAPI.getTrailer(id);
-  }
-  // TV Shows
-  async getPopularTVShows() {
-    return tvAPI.getPopular();
-  }
-
-  async getTopRatedTVShows() {
-    return tvAPI.getTopRated();
-  }
-
-  async getTrendingTVShows() {
-    return tvAPI.getTrending();
-  }
-  async getDetailsTVShows(id: number) {
-    return tvAPI.getDetails(id);
-  }
-
-  async getCreditsTVShows(id: number) {
-    return tvAPI.getCredits(id);
-  }
-
-  async getDiscoverTVShows({ page, genre }: { page?: string; genre?: string }) {
-    return tvAPI.getDiscover({ genre, page });
-  }
-
-  async getVideosTVShows(id: number) {
-    return tvAPI.getTrailer(id);
-  }
   // Home Page Data
   async getHomePageData() {
     try {
@@ -100,33 +39,47 @@ class TMDBService {
         topRatedMovies,
         popularMovies,
         trendingMovies,
-        popularTVShows,
         topRatedTVShows,
+        popularTVShows,
         trendingTVShows,
       ] = await Promise.all([
-        this.getTopRatedMovies(),
-        this.getPopularMovies(),
-        this.getTrendingMovies(),
-        this.getPopularTVShows(),
-        this.getTopRatedTVShows(),
-        this.getTrendingTVShows(),
+        this.getMediaData<TMDBApiResponse<Movie>>({
+          endpoint: TMDB_ROUTES.movies.topRated,
+        }),
+        this.getMediaData<TMDBApiResponse<Movie>>({
+          endpoint: TMDB_ROUTES.movies.popular,
+        }),
+        this.getMediaData<TMDBApiResponse<Movie>>({
+          endpoint: TMDB_ROUTES.movies.trending,
+        }),
+        this.getMediaData<TMDBApiResponse<TVShow>>({
+          endpoint: TMDB_ROUTES.tvShows.topRated,
+        }),
+        this.getMediaData<TMDBApiResponse<TVShow>>({
+          endpoint: TMDB_ROUTES.tvShows.popular,
+        }),
+        this.getMediaData<TMDBApiResponse<TVShow>>({
+          endpoint: TMDB_ROUTES.tvShows.trending,
+        }),
       ]);
 
       return {
         movies: {
-          topRated: topRatedMovies.results.slice(0, 10),
-          popular: popularMovies.results.slice(0, 10),
-          trending: trendingMovies.results.slice(0, 10),
+          topRated: topRatedMovies?.results.slice(0, 10),
+          popular: popularMovies?.results.slice(0, 10),
+          trending: trendingMovies?.results.slice(0, 10),
         },
         tvShows: {
-          topRated: topRatedTVShows.results.slice(0, 10),
-          popular: popularTVShows.results.slice(0, 10),
-          trending: trendingTVShows.results.slice(0, 10),
+          topRated: topRatedTVShows?.results.slice(0, 10),
+          popular: popularTVShows?.results.slice(0, 10),
+          trending: trendingTVShows?.results.slice(0, 10),
         },
       };
     } catch (error) {
       console.error('Error fetching home page data:', error);
-      throw error;
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
     }
   }
 
@@ -134,9 +87,15 @@ class TMDBService {
   async getMoviePageData(id: number) {
     try {
       const [detailsMovies, creditsMovies, videosMovies] = await Promise.all([
-        this.getDetailsMovie(id),
-        this.getCreditsMovie(id),
-        this.getVideosMovie(id),
+        this.getMediaData<Movie>({
+          endpoint: TMDB_ROUTES.movies.details(id),
+        }),
+        this.getMediaData<TMDBApiCastResponse>({
+          endpoint: TMDB_ROUTES.movies.credits(id),
+        }),
+        this.getMediaData<TMDBApiVideoResponse>({
+          endpoint: TMDB_ROUTES.movies.videos(id),
+        }),
       ]);
 
       const trailer = videosMovies.results.find(
@@ -150,34 +109,59 @@ class TMDBService {
         },
       };
     } catch (error) {
-      console.error('Error fetching home page data:', error);
-      throw error;
+      console.error(`Error in getMoviePageData`, error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
     }
   }
 
   //Movies Page Data
-  async getMoviesPageData({ page, genre }: { page?: string; genre?: string }) {
+  async getMoviesPageData({
+    page = '1',
+    genre,
+  }: {
+    page?: string;
+    genre?: string;
+  }) {
     try {
-      const discoverMovies = await this.getDiscoverMovie({ page, genre });
-
+      const discoverMovies = await await this.getMediaData<
+        TMDBApiResponse<Movie>
+      >({
+        endpoint: TMDB_ROUTES.movies.discover,
+        params: {
+          page,
+          sort_by: 'popularity.desc',
+          with_genres: genre,
+        },
+      });
       return {
         movie: {
-          discoverMovies: discoverMovies,
+          discover: discoverMovies,
         },
       };
     } catch (error) {
-      console.error('Error fetching home page data:', error);
-      throw error;
+      console.error(`Error in getMoviesPageData`, error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
     }
   }
   //TV Page Data
   async getTVShowPageData(id: number) {
     try {
       const [detailsTV, creditsTV, videosTV] = await Promise.all([
-        this.getDetailsTVShows(id),
-        this.getCreditsTVShows(id),
-        this.getVideosTVShows(id),
+        this.getMediaData<TVShow>({
+          endpoint: TMDB_ROUTES.tvShows.details(id),
+        }),
+        this.getMediaData<TMDBApiCastResponse>({
+          endpoint: TMDB_ROUTES.tvShows.credits(id),
+        }),
+        this.getMediaData<TMDBApiVideoResponse>({
+          endpoint: TMDB_ROUTES.tvShows.videos(id),
+        }),
       ]);
+
       const trailer = videosTV.results.find(
         (video) => video.site === 'YouTube' && video.type === 'Trailer'
       );
@@ -189,24 +173,41 @@ class TMDBService {
         },
       };
     } catch (error) {
-      console.error('Error fetching home page data:', error);
-      throw error;
+      console.error(`Error in getTVShowPageData`, error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
     }
   }
 
   //TVs Page Data
-  async getTVShowsPageData({ page, genre }: { page?: string; genre?: string }) {
+  async getTVShowsPageData({
+    page = '1',
+    genre,
+  }: {
+    page?: string;
+    genre?: string;
+  }) {
     try {
-      const discoverMovies = await this.getDiscoverTVShows({ page, genre });
+      const discoverTVShows = await this.getMediaData<TMDBApiResponse<TVShow>>({
+        endpoint: TMDB_ROUTES.tvShows.discover,
+        params: {
+          page,
+          sort_by: 'popularity.desc',
+          with_genres: genre,
+        },
+      });
 
       return {
-        movie: {
-          discoverMovies: discoverMovies,
+        tv: {
+          discover: discoverTVShows,
         },
       };
     } catch (error) {
-      console.error('Error fetching home page data:', error);
-      throw error;
+      console.error(`Error in getTVShowsPageData`, error);
+      throw new Error(
+        (error as Error).message || 'An unexpected error occurred.'
+      );
     }
   }
 
@@ -218,15 +219,13 @@ class TMDBService {
     searchMedia: string;
   }) {
     try {
-      const response = await tmdbApi
-        .get<TMDBApiResponse<Media>>(`/search/multi`, {
-          params: {
-            page,
-            query: searchMedia,
-          },
-        })
-        .then((response) => response.data);
-
+      const response = await this.getMediaData<TMDBApiResponse<Media>>({
+        endpoint: '/search/multi',
+        params: {
+          page,
+          query: searchMedia,
+        },
+      });
       return {
         data: response,
       };

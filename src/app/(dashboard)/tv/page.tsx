@@ -1,8 +1,8 @@
-import { BadgeInteractiveList } from "@/components/badges/badge-interactive-list";
-import { GridMediaCards } from "@/components/grid-cards-media/grid-cards-media";
-import { Paginations } from "@/components/pagination/Paginations";
-import { genresTvList } from "@/data/genres-media";
-import { tmdbService } from "@/services/tmdb";
+import { BadgeInteractiveList } from '@/components/badges/badge-interactive-list';
+import { GridMediaCards } from '@/components/grid-cards-media/grid-cards-media';
+import { Paginations } from '@/components/pagination/Paginations';
+import { genresTvList } from '@/data/genres-media';
+import { tmdbService } from '@/services/tmdb';
 
 interface Props {
   searchParams: {
@@ -16,12 +16,14 @@ export default async function Page({ searchParams }: Props) {
   const currentPage = page ? page : undefined;
   const selectedGenres = with_genres || undefined;
 
-  const { results: movies, total_pages } = await tmdbService.getDiscoverTVShows(
-    {
-      page: currentPage,
-      genre: selectedGenres,
-    }
-  );
+  const {
+    tv: {
+      discover: { results: movies, total_pages },
+    },
+  } = await tmdbService.getTVShowsPageData({
+    page: currentPage,
+    genre: selectedGenres,
+  });
   return (
     <>
       <section className="space-y-10">

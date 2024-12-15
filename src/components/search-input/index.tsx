@@ -45,7 +45,7 @@ export const SearchInput = () => {
         value={searchQuery}
         onChange={handleChange}
         placeholder="Search for movies or TV series"
-        className="w-full pl-12 placeholder:font-light text-white border-0  md:placeholder:text-2xl md:text-2xl"
+        className="w-full pl-12 placeholder:font-light text-white border-0  md:placeholder:text-2xl md:text-2xl focus-visible:ring-0"
       />
     </form>
   );
