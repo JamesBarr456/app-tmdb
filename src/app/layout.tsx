@@ -1,15 +1,14 @@
-import "./globals.css";
+import './globals.css';
 
-import type { Metadata } from "next";
-import { outfit } from "@/fonts";
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Entertainment",
-  description: "Movies and TV Series from TMDB",
+  title: 'Entertainment',
+  description: 'Movies and TV Series from TMDB',
   keywords:
-    "Películas populares, Estrenos de cine, Mejores películas, Cartelera de cine, Recomendaciones de películas",
+    'Películas populares, Estrenos de cine, Mejores películas, Cartelera de cine, Recomendaciones de películas',
   icons: {
-    icon: [{ url: "/icon/logo.svg", sizes: "40x40" }],
+    icon: [{ url: '/icon/logo.svg', sizes: '40x40' }],
   },
 };
 
@@ -20,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${outfit.variable} antialiased`}>{children}</body>
+      <body className={` antialiased`}>{children}</body>
     </html>
   );
 }

@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { tmdbService } from '@/services/tmdb';
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 export default async function Page({ params }: Props) {
   const { id } = await params;

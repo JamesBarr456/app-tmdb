@@ -5,10 +5,10 @@ import { genresMovieList } from '@/data/genres-media';
 import { tmdbService } from '@/services/tmdb';
 
 interface Props {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     with_genres?: string;
-  };
+  }>;
 }
 
 export default async function Page({ searchParams }: Props) {

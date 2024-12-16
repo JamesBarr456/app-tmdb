@@ -7,10 +7,10 @@ import { SearchX } from 'lucide-react';
 import { tmdbService } from '@/services/tmdb';
 
 interface Props {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     name?: string;
-  };
+  }>;
 }
 
 export default async function Page({ searchParams }: Props) {
