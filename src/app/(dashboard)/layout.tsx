@@ -1,6 +1,6 @@
-import { Navbar } from "../../components/navbar/index";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { SearchInput } from "@/components/search-input";
+import { Navbar } from '../../components/navbar/index';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { SearchInput } from '@/components/search-input';
 
 export default function RootLayout({
   children,

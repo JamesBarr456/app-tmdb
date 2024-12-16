@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState, useTransition } from 'react';
 
-import { Badge } from "../ui/badge";
-import { SpinnerLoading } from "../loading/custom-loading";
-import clsx from "clsx";
+import { Badge } from '../ui/badge';
+import { SpinnerLoading } from '../loading/custom-loading';
+import clsx from 'clsx';
 
 interface BadgeItem {
   id: number;
@@ -18,11 +18,7 @@ interface BadgeListProps {
   badgeContainerClassName?: string;
 }
 
-export function BadgeInteractiveList({
-  items,
-  title,
-  badgeContainerClassName = "flex flex-wrap gap-2",
-}: BadgeListProps) {
+function BadgeList({ items, title, badgeContainerClassName }: BadgeListProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -32,12 +28,12 @@ export function BadgeInteractiveList({
     setPendingId(id);
     startTransition(() => {
       const params = new URLSearchParams(searchParams.toString());
-      const currentGenre = params.get("with_genres");
+      const currentGenre = params.get('with_genres');
 
       if (currentGenre === id.toString()) {
-        params.delete("with_genres"); // Eliminar género si está seleccionado
+        params.delete('with_genres'); // Eliminar género si está seleccionado
       } else {
-        params.set("with_genres", id.toString()); // Seleccionar género
+        params.set('with_genres', id.toString()); // Seleccionar género
       }
 
       router.push(`?${params.toString()}`);
@@ -45,12 +41,12 @@ export function BadgeInteractiveList({
     });
   };
 
-  const selectedGenre = Number(searchParams.get("with_genres")) || null;
+  const selectedGenre = Number(searchParams.get('with_genres')) || null;
 
   return (
     <div className="mb-6">
       {title && <h3 className="mb-2 md:text-2xl">{title}</h3>}
-      <div className={clsx("", badgeContainerClassName)}>
+      <div className={clsx('', badgeContainerClassName)}>
         {items.map(({ id, name }) => {
           const isLoading = isPending && id === pendingId;
 
@@ -58,15 +54,15 @@ export function BadgeInteractiveList({
             <Badge
               key={id}
               className={clsx(
-                "text-base cursor-pointer relative",
+                'text-base cursor-pointer relative',
                 selectedGenre === id
-                  ? "bg-bright-red hover:bg-greyish-blue"
-                  : "bg-greyish-blue hover:bg-bright-red",
-                isLoading && "opacity-70"
+                  ? 'bg-bright-red hover:bg-greyish-blue'
+                  : 'bg-greyish-blue hover:bg-bright-red',
+                isLoading && 'opacity-70'
               )}
               variant="default"
               aria-label={`Select ${name}`}
-              onClick={() => toggleGenre(id)} // Manejo del clic para selección/deselección
+              onClick={() => toggleGenre(id)}
             >
               <span className="flex items-center gap-2">
                 {name}
@@ -79,5 +75,21 @@ export function BadgeInteractiveList({
         })}
       </div>
     </div>
+  );
+}
+
+export function BadgeInteractiveList({
+  items,
+  title,
+  badgeContainerClassName = 'flex flex-wrap gap-2',
+}: BadgeListProps) {
+  return (
+    <Suspense>
+      <BadgeList
+        items={items}
+        title={title}
+        badgeContainerClassName={badgeContainerClassName}
+      />
+    </Suspense>
   );
 }

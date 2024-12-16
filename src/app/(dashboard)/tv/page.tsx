@@ -32,11 +32,13 @@ export default async function Page({ searchParams }: Props) {
           title=""
           badgeContainerClassName="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto"
         />
+
         <GridMediaCards
           title_section="TV Series"
           mediaType="tv"
           items={movies}
         />
+
         <Paginations totalPages={total_pages} />
       </section>
     </>

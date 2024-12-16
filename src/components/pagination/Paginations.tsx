@@ -8,13 +8,14 @@ import {
   PaginationLink,
 } from '@/components/ui/pagination';
 import { redirect, usePathname, useSearchParams } from 'next/navigation';
-
 import { generatePaginationNumbers } from '@/utils/generatePaginationNumbers';
+import { Suspense } from 'react';
 
 interface Props {
   totalPages: number;
 }
-export function Paginations({ totalPages }: Props) {
+
+function PaginationsComponent({ totalPages }: Props) {
   const limitTotalPagesTMDB = 500;
   const newTotalPages =
     totalPages > limitTotalPagesTMDB ? limitTotalPagesTMDB : totalPages;
@@ -77,5 +78,13 @@ export function Paginations({ totalPages }: Props) {
         </PaginationContent>
       </Pagination>
     </div>
+  );
+}
+
+export function Paginations({ totalPages }: Props) {
+  return (
+    <Suspense fallback={<div>Cargando paginación...</div>}>
+      <PaginationsComponent totalPages={totalPages} />
+    </Suspense>
   );
 }

@@ -5,6 +5,8 @@ import { MediaListCard } from '@/components/cards-media/card-media-list';
 import { Paginations } from '@/components/pagination/Paginations';
 import { SearchX } from 'lucide-react';
 import { tmdbService } from '@/services/tmdb';
+import { PaginationSkeleton } from '@/components/skeletons';
+import { Suspense } from 'react';
 
 interface Props {
   searchParams: Promise<{
@@ -61,7 +63,9 @@ export default async function Page({ searchParams }: Props) {
                 />
               ))}
             </div>
-            <Paginations totalPages={data.total_pages} />
+            <Suspense fallback={<PaginationSkeleton />}>
+              <Paginations totalPages={data.total_pages} />
+            </Suspense>
           </>
         )}
       </section>

@@ -5,8 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import { Suspense } from 'react';
 
-export const SearchInput = () => {
+function SearchInputComponent() {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -48,5 +49,13 @@ export const SearchInput = () => {
         className="w-full pl-12 placeholder:font-light text-white border-0  md:placeholder:text-2xl md:text-2xl focus-visible:ring-0"
       />
     </form>
+  );
+}
+
+export const SearchInput = () => {
+  return (
+    <Suspense fallback={<div>Cargando búsqueda...</div>}>
+      <SearchInputComponent />
+    </Suspense>
   );
 };
