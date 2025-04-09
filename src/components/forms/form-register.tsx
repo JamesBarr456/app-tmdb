@@ -1,3 +1,5 @@
+'use client';
+
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import {
   Form,
@@ -8,19 +10,24 @@ import {
   FormMessage,
 } from '../ui/form';
 import { RegisterFormType, registerSchema } from '@/schemas/auth';
+import { useActionState, useEffect, useState } from 'react';
 
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { registerPatientAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
-import { useFormState } from 'react-dom';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 function FormRegister() {
-  const [state, formAction] = useFormState(registerPatientAction, null);
+  const [state, formAction, isPending] = useActionState(
+    registerPatientAction,
+    null
+  );
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -30,8 +37,18 @@ function FormRegister() {
     },
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    if (state?.success) {
+      console.log(state.data);
+      router.push('/login');
+    } else if (state?.error) {
+      console.log(state.error);
+    }
+  }, [state]);
+
   return (
-    <div className="w-full h-[247px]">
+    <div className="w-full">
       <Form {...form}>
         <form action={formAction}>
           <FormField
@@ -115,8 +132,13 @@ function FormRegister() {
               </FormItem>
             )}
           />
+          <Button
+            type="submit"
+            className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
+          >
+            {isPending ? 'Loading' : 'Create on account'}
+          </Button>
         </form>
-        <Button className="w-full py-4 bg-bright-red">Create on account</Button>
       </Form>
     </div>
   );
