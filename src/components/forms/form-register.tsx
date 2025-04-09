@@ -14,16 +14,13 @@ import { useActionState, useEffect, useState } from 'react';
 
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { registerPatientAction } from '@/actions/auth';
+import { registerAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 function FormRegister() {
-  const [state, formAction, isPending] = useActionState(
-    registerPatientAction,
-    null
-  );
+  const [state, formAction, isPending] = useActionState(registerAction, null);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
