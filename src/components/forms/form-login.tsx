@@ -14,11 +14,11 @@ import { useActionState, useEffect, useState } from 'react';
 
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { cn } from '@/lib/utils';
 import { loginAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { cn } from '@/lib/utils';
 
 function FormLogin() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
@@ -106,6 +106,7 @@ function FormLogin() {
         <Button
           type="submit"
           className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
+          disabled={!form.formState.isValid || isPending}
         >
           {isPending ? 'Loading' : 'Login to your account'}
         </Button>
