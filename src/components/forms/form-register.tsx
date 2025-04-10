@@ -46,105 +46,106 @@ function FormRegister() {
   }, [state]);
 
   return (
-    <div className="w-full">
-      <Form {...form}>
-        <form action={formAction}>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      className={cn(
-                        'border-0 border-b rounded-none focus-visible:ring-0 transition-colors',
-                        fieldState.error ? 'border-b-red-500' : 'border-b-white'
-                      )}
-                      type="email"
-                      placeholder="juan@example.com"
-                      {...field}
-                    />
-                    <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Contraseña</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      className={cn(
-                        'border-0 border-b rounded-none focus-visible:ring-0 transition-colors',
-                        fieldState.error ? 'border-b-red-500' : 'border-b-white'
-                      )}
-                      type={showPassword ? 'text' : 'password'}
-                      {...field}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent  hover:text-bright-red"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeClosed /> : <Eye />}
-                    </Button>
-                    <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Confirmar Contraseña</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      className={cn(
-                        'border-0 border-b rounded-none focus-visible:ring-0 transition-colors',
-                        fieldState.error ? 'border-b-red-500' : 'border-b-white'
-                      )}
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      {...field}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:text-bright-red"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      {showConfirmPassword ? <EyeClosed /> : <Eye />}
-                    </Button>
-                    <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
-          >
-            {isPending ? 'Loading' : 'Create on account'}
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form action={formAction} className="space-y-5 mb-6">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field, fieldState }) => (
+            <FormItem className="space-y-0">
+              <FormLabel className="opacity-50">Email address</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    className={cn(
+                      'border-0 border-b rounded-none caret-bright-red focus-visible:ring-0 transition-colors',
+                      fieldState.error
+                        ? 'border-b-red-500'
+                        : 'border-b-greyish-blue'
+                    )}
+                    type="email"
+                    {...field}
+                  />
+                  <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
+                </div>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field, fieldState }) => (
+            <FormItem className="space-y-0">
+              <FormLabel className="opacity-50">Password</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    className={cn(
+                      'border-0 border-b rounded-none caret-bright-red  focus-visible:ring-0 transition-colors',
+                      fieldState.error
+                        ? 'border-b-red-500'
+                        : 'border-b-greyish-blue'
+                    )}
+                    type={showPassword ? 'text' : 'password'}
+                    {...field}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-full px-3 py-2 text-greyish-blue hover:bg-transparent  hover:text-bright-red"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeClosed /> : <Eye />}
+                  </Button>
+                  <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
+                </div>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field, fieldState }) => (
+            <FormItem className="space-y-0">
+              <FormLabel className="opacity-50">Repeat Password</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    className={cn(
+                      'border-0 border-b rounded-none caret-bright-red  focus-visible:ring-0 transition-colors',
+                      fieldState.error
+                        ? 'border-b-red-500'
+                        : 'border-b-greyish-blue'
+                    )}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    {...field}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-full text-greyish-blue px-3 py-2  hover:bg-transparent hover:text-bright-red"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <EyeClosed /> : <Eye />}
+                  </Button>
+                  <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
+                </div>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
+        >
+          {isPending ? 'Loading' : 'Create on account'}
+        </Button>
+      </form>
+    </Form>
   );
 }
 

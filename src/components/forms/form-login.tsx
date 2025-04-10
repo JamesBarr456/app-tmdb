@@ -1,6 +1,6 @@
 'use client';
 
-import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
+import { Eye, EyeClosed } from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -18,6 +18,7 @@ import { loginAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { cn } from '@/lib/utils';
 
 function FormLogin() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
@@ -44,49 +45,64 @@ function FormLogin() {
 
   return (
     <Form {...form}>
-      <form action={formAction} className="space-y-5">
+      <form action={formAction} className="space-y-5 mb-6">
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
+          render={({ field, fieldState }) => (
+            <FormItem className="space-y-0">
+              <FormLabel className="opacity-50">Email address</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="juan@example.com" {...field} />
+                <div className="relative">
+                  <Input
+                    className={cn(
+                      'border-0 border-b rounded-none caret-bright-red focus-visible:ring-0 transition-colors',
+                      fieldState.error
+                        ? 'border-b-red-500'
+                        : 'border-b-greyish-blue'
+                    )}
+                    type="email"
+                    {...field}
+                  />
+                  <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
+                </div>
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contraseña</FormLabel>
+          render={({ field, fieldState }) => (
+            <FormItem className="space-y-0">
+              <FormLabel className="opacity-50">Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Input type={showPassword ? 'text' : 'password'} {...field} />
+                  <Input
+                    className={cn(
+                      'border-0 border-b rounded-none caret-bright-red  focus-visible:ring-0 transition-colors',
+                      fieldState.error
+                        ? 'border-b-red-500'
+                        : 'border-b-greyish-blue'
+                    )}
+                    type={showPassword ? 'text' : 'password'}
+                    {...field}
+                  />
                   <Button
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    className="absolute right-0 top-0 h-full px-3 py-2 text-greyish-blue hover:bg-transparent  hover:text-bright-red"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? (
-                      <EyeClosedIcon className="h-4 w-4" />
-                    ) : (
-                      <EyeOpenIcon className="h-4 w-4" />
-                    )}
+                    {showPassword ? <EyeClosed /> : <Eye />}
                   </Button>
+                  <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
                 </div>
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
-
         <Button
           type="submit"
           className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
