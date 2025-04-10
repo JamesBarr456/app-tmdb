@@ -17,7 +17,7 @@ function Layout({
           priority
         />
       </picture>
-      <div className="w-full  bg-semi-dark-blue rounded-xl">
+      <div className="w-full md:w-[400px] bg-semi-dark-blue rounded-xl mx-5">
         <div className="flex flex-col p-6 text-white">{children}</div>
       </div>
     </main>
