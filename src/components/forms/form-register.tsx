@@ -38,7 +38,6 @@ function FormRegister() {
 
   useEffect(() => {
     if (state?.success) {
-      console.log(state.data);
       router.push('/login');
     } else if (state?.error) {
       console.log(state.error);

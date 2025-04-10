@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from '@/schemas/auth';
 import { AxiosError } from 'axios';
 import { authService } from '../services/auth-service';
 
+const { login, register } = authService;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function registerAction(_: any, formData: FormData) {
   const data = Object.fromEntries(formData.entries());
@@ -26,13 +27,12 @@ export async function registerAction(_: any, formData: FormData) {
   }
 
   const { confirmPassword, ...newPatient } = validatedFields.data;
-  void confirmPassword;
+  void confirmPassword; // 👌 para que no se queje eslint
 
   try {
-    const user = await authService.register(newPatient);
+    await register(newPatient);
     return {
       success: true,
-      data: user,
     };
   } catch (error) {
     return { success: false, error: (error as Error).message };
@@ -58,10 +58,9 @@ export async function loginAction(_: any, formData: FormData) {
   }
 
   try {
-    // Aca se ejecuta la funcion de services del llamado api
-    //   const resp = await login(validatedFields.data);
+    await login(validatedFields.data);
+
     return {
-      data: validatedFields.data,
       success: true,
     };
   } catch (error) {
