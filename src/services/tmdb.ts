@@ -10,6 +10,7 @@ import { TMDBApiResponse } from '../types/media';
 import { TMDB_ROUTES } from './tmdb-routes';
 import { tmdbApi } from '@/config/axios';
 
+
 class TMDBService {
   async getMediaData<T>({
     endpoint,

@@ -1,6 +1,5 @@
 'use client';
 
-import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import {
   Form,
   FormControl,
@@ -18,6 +17,8 @@ import { registerPatientAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeClosed } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 function FormRegister() {
   const [state, formAction, isPending] = useActionState(
@@ -54,29 +55,39 @@ function FormRegister() {
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="juan@example.com"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      className={cn(
+                        'border-0 border-b rounded-none focus-visible:ring-0 transition-colors',
+                        fieldState.error ? 'border-b-red-500' : 'border-b-white'
+                      )}
+                      type="email"
+                      placeholder="juan@example.com"
+                      {...field}
+                    />
+                    <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
+                  </div>
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
+                      className={cn(
+                        'border-0 border-b rounded-none focus-visible:ring-0 transition-colors',
+                        fieldState.error ? 'border-b-red-500' : 'border-b-white'
+                      )}
                       type={showPassword ? 'text' : 'password'}
                       {...field}
                     />
@@ -84,30 +95,30 @@ function FormRegister() {
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent  hover:text-bright-red"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? (
-                        <EyeClosedIcon className="h-4 w-4" />
-                      ) : (
-                        <EyeOpenIcon className="h-4 w-4" />
-                      )}
+                      {showPassword ? <EyeClosed /> : <Eye />}
                     </Button>
+                    <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
                   </div>
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="confirmPassword"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Confirmar Contraseña</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
+                      className={cn(
+                        'border-0 border-b rounded-none focus-visible:ring-0 transition-colors',
+                        fieldState.error ? 'border-b-red-500' : 'border-b-white'
+                      )}
                       type={showConfirmPassword ? 'text' : 'password'}
                       {...field}
                     />
@@ -115,20 +126,16 @@ function FormRegister() {
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:text-bright-red"
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
                     >
-                      {showConfirmPassword ? (
-                        <EyeClosedIcon className="h-4 w-4" />
-                      ) : (
-                        <EyeOpenIcon className="h-4 w-4" />
-                      )}
+                      {showConfirmPassword ? <EyeClosed /> : <Eye />}
                     </Button>
+                    <FormMessage className="absolute right-0 top-0 h-fulls -translate-x-8 translate-y-2" />
                   </div>
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
