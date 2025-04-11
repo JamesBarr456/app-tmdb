@@ -3,7 +3,8 @@
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 
 import { getFirestore } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { getApps, initializeApp } from 'firebase/app';
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -11,16 +12,16 @@ import { initializeApp } from 'firebase/app';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyAW5w-4HR6GzJ_i93W5Ns1nHs9JSQKD63I', //ocultar esto, llevarlo a mi .env
-  authDomain: 'movie-app-8ad97.firebaseapp.com',
-  projectId: 'movie-app-8ad97',
-  storageBucket: 'movie-app-8ad97.firebasestorage.app',
-  messagingSenderId: '456001892372',
-  appId: '1:456001892372:web:0f40a945dc76eb159ef701',
-  measurementId: 'G-JNVW8MM6FE',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();

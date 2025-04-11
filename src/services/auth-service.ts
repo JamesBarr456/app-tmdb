@@ -23,7 +23,8 @@ class AuthService {
       email,
       password
     );
-    return userCredential.user;
+    const token = await userCredential.user.getIdToken()
+    return { user: userCredential.user, token };
   }
 }
 export const authService = new AuthService();

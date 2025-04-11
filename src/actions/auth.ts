@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from '@/schemas/auth';
 import { AxiosError } from 'axios';
 import { authService } from '../services/auth-service';
 
+
 const { login, register } = authService;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function registerAction(_: any, formData: FormData) {
@@ -58,9 +59,10 @@ export async function loginAction(_: any, formData: FormData) {
   }
 
   try {
-    await login(validatedFields.data);
-
+    const {token} = await login(validatedFields.data);
+  
     return {
+      token,
       success: true,
     };
   } catch (error) {

@@ -1,5 +1,5 @@
 'use client';
-
+import Cookies from 'js-cookie';
 import { Eye, EyeClosed } from 'lucide-react';
 import {
   Form,
@@ -35,11 +35,17 @@ function FormLogin() {
   });
 
   useEffect(() => {
-    if (state?.success) {
-      console.log(state.data);
+    if (state?.success && state?.token) {
+      // Guardar el token en una cookie accesible por el navegador
+      Cookies.set('session', state.token, {
+        expires: 1, // días
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax',
+      });
+
       router.push('/home');
     } else if (state?.error) {
-      console.log(state.error);
+      console.log('Error:', state.error);
     }
   }, [state]);
 
