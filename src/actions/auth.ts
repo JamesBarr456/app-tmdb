@@ -5,7 +5,6 @@ import { loginSchema, registerSchema } from '@/schemas/auth';
 import { AxiosError } from 'axios';
 import { authService } from '../services/auth-service';
 
-
 const { login, register } = authService;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function registerAction(_: any, formData: FormData) {
@@ -27,11 +26,11 @@ export async function registerAction(_: any, formData: FormData) {
     return { error: errorDetails };
   }
 
-  const { confirmPassword, ...newPatient } = validatedFields.data;
+  const { confirmPassword, ...newUser } = validatedFields.data;
   void confirmPassword; // 👌 para que no se queje eslint
 
   try {
-    await register(newPatient);
+    await register(newUser);
     return {
       success: true,
     };
@@ -59,8 +58,8 @@ export async function loginAction(_: any, formData: FormData) {
   }
 
   try {
-    const {token} = await login(validatedFields.data);
-  
+    const { token } = await login(validatedFields.data);
+
     return {
       token,
       success: true,

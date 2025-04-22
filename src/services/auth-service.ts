@@ -1,20 +1,16 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-
 import { auth } from '@/config/firebase';
+import { auth as authAdmin } from '@/lib/firebase/admin';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 // Registro
 
 class AuthService {
   async register({ email, password }: { email: string; password: string }) {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
+    const userRecord = await authAdmin.createUser({
       email,
-      password
-    );
-    return userCredential.user;
+      password,
+    });
+    return userRecord;
   }
 
   async login({ email, password }: { email: string; password: string }) {
@@ -23,7 +19,7 @@ class AuthService {
       email,
       password
     );
-    const token = await userCredential.user.getIdToken()
+    const token = await userCredential.user.getIdToken();
     return { user: userCredential.user, token };
   }
 }
