@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { AuthProvider } from '@/context/auth-context';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`font-outfit bg-dark-blue antialiased`}>{children}</body>
+      <body className={`font-outfit bg-dark-blue antialiased`}>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

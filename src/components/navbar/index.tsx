@@ -1,6 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import { routes } from "@/data/routes";
+import Avatar from '../avatar';
+import Image from 'next/image';
+import Link from 'next/link';
+import { routes } from '@/data/routes';
 
 export const Navbar = () => {
   return (
@@ -10,7 +11,7 @@ export const Navbar = () => {
         <picture className="md:w-8 md:h-7">
           <Image
             alt="Logo-Entertaiment"
-            src={"/icon/logo.svg"}
+            src={'/icon/logo.svg'}
             width={32}
             height={26}
             sizes="(max-width: 768px) 32px"
@@ -19,26 +20,20 @@ export const Navbar = () => {
         </picture>
         {/* Pages */}
         <ul className="flex gap-6 md:gap-8 lg:flex-col lg:gap-12">
-          {routes.map(({icon:Icon, path}) => (
-            <li key={path} className="hover:text-white text-greyish-blue hover:scale-125 transition-all ease-out duration-300">
-              <Link href={path} >
-               <Icon />
+          {routes.map(({ icon: Icon, path }) => (
+            <li
+              key={path}
+              className="hover:text-white text-greyish-blue hover:scale-125 transition-all ease-out duration-300"
+            >
+              <Link href={path}>
+                <Icon />
               </Link>
             </li>
           ))}
         </ul>
         {/* User */}
-        <picture>
-          <Image
-            alt="Avatar-Entertaiment"
-            src={"/images/image-avatar.png"}
-            width={32}
-            height={32}
-            sizes="(max-width: 768px) 32px"
-            priority
-            className="border-2 border-white rounded-full opacity-0"
-          />
-        </picture>
+        {/* <TestLogin /> */}
+        <Avatar />
       </div>
     </nav>
   );
