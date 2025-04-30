@@ -1,18 +1,10 @@
-"use client";
+'use client';
 
-import { Button } from "../ui/button";
-import Image from "next/image";
-import { useState } from "react";
+import { Button } from '../ui/button';
+import Image from 'next/image';
+import { useState } from 'react';
 
-interface BookmarkButtonProps {
-  right?: string;
-  top?: string;
-}
-
-export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
-  right = "3",
-  top = "3",
-}) => {
+export const BookmarkButton = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const toggleBookmark = () => {
@@ -21,17 +13,17 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
 
   return (
     <Button
-      size={"icon"}
+      size={'icon'}
       onClick={toggleBookmark}
-      className={`absolute z-20 rounded-full bg-black/50 p-2 right-${right} top-${top}`}
+      className={`absolute z-20 rounded-full bg-black/50 top-2 right-2`}
       aria-label="Toggle Bookmark"
     >
       <Image
         alt="Favorite Media"
         src={
           isBookmarked
-            ? "/icon/icon-bookmark-full.svg"
-            : "/icon/icon-bookmark-empty.svg"
+            ? '/icon/icon-bookmark-full.svg'
+            : '/icon/icon-bookmark-empty.svg'
         }
         width={12}
         height={14}
