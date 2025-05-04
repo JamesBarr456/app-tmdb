@@ -35,7 +35,7 @@ function Avatar() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <ShadAvatar className="w-8 h-8 border-2 border-white cursor-pointer">
-          {isLogged ? (
+          {!isLogged ? (
             <UserLucide className=" text-gray-500" />
           ) : (
             <Image
@@ -48,7 +48,7 @@ function Avatar() {
         </ShadAvatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32">
-        {!isLogged ? (
+        {isLogged ? (
           <>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />

@@ -1,8 +1,5 @@
-import { collection, getDocs } from 'firebase/firestore';
-
 import { adminDB } from '@/lib/firebase/admin';
 import { authService } from './auth-service';
-import { db } from '@/config/firebase';
 
 interface MovieData {
   id: number;
@@ -34,10 +31,14 @@ class FavoriteService {
 
   async getFavorites(): Promise<MovieData[]> {
     const uid = await this.getUserId();
-    const favoritesRef = collection(db, 'users', uid, 'favorites');
+    const favoritesRef = adminDB.collection(`users/${uid}/favorites`);
+    const snapshot = await favoritesRef.get();
 
-    const snapshot = await getDocs(favoritesRef);
-    return snapshot.docs.map((doc) => doc.data() as MovieData);
+    if (snapshot.empty) return [];
+    return snapshot.docs.map((doc) => {
+      const { addedAt, ...rest } = doc.data() as MovieData;
+      return rest;
+    });
   }
 }
 
