@@ -5,7 +5,7 @@ import { loginSchema, registerSchema } from '@/schemas/auth';
 import { AxiosError } from 'axios';
 import { authService } from '../services/auth-service';
 
-const { login, register, logout } = authService;
+const { login, register, logout, getCurrentUser } = authService;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function registerAction(_: any, formData: FormData) {
   const data = Object.fromEntries(formData.entries());
@@ -58,8 +58,10 @@ export async function loginAction(_: any, formData: FormData) {
   }
 
   try {
-    const resp = await login(validatedFields.data);
-    return resp;
+    await login(validatedFields.data);
+    return {
+      success: true,
+    };
   } catch (error) {
     if (error instanceof AxiosError) {
       return { error: error.response?.data || error.message };
@@ -78,4 +80,9 @@ export async function logoutAction() {
     console.error('Error en logoutAction:', error);
     return { success: false, error: 'No se pudo cerrar sesión' };
   }
+}
+
+export async function checkAuthAction() {
+  const user = await getCurrentUser();
+  return !!user;
 }

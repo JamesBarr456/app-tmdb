@@ -1,10 +1,9 @@
 import { Film, ImageIcon, Tv } from 'lucide-react';
 
+import { BookmarkButton } from '../buttons-media/button-favorite';
 import Image from 'next/image';
 import { InfoButton } from '../buttons-media/button-info';
 import { cn } from '@/lib/utils';
-
-import { BookmarkButton } from '../buttons-media/button-favorite';
 
 interface MediaListCardProps {
   id_media: number;
@@ -50,7 +49,15 @@ export const MediaListCard = ({
           </div>
         )}
 
-        <BookmarkButton />
+        <BookmarkButton
+          media={{
+            id_media,
+            title,
+            backdropPath: imageUrl,
+            releaseYear,
+            mediaType,
+          }}
+        />
 
         <div className="absolute inset-0 translate-y-1/2 group">
           <div className="flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-black/50">

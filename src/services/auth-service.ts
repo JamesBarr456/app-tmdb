@@ -32,12 +32,13 @@ class AuthService {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 días
+      maxAge: 60 * 60, // 1 hora
       path: '/',
     });
 
     return { success: true };
   }
+
   async logout() {
     const cookieStore = await cookies();
 
