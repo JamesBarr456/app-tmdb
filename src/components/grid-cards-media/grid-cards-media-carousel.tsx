@@ -1,5 +1,5 @@
-"use client"
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -7,15 +7,15 @@ import {
   CarouselNext,
   CarouselPrevious,
   type CarouselApi,
-} from "@/components/ui/carousel";
-import { Movie, TVShow } from "@/types/media";
-import { MediaListCarouselCard } from "../cards-media/card-media-carousel";
-import { useAutoScroll } from "@/hooks/use-auto-scroll";
+} from '@/components/ui/carousel';
+import { Movie, TVShow } from '@/types/media';
+import { useAutoScroll } from '@/hooks/use-auto-scroll';
+import { MediaCard } from '../cards-media';
 
 interface MediaCarouselProps {
   title_section: string;
   items: (Movie | TVShow)[];
-  mediaType: "movie" | "tv";
+  mediaType: 'movie' | 'tv';
 }
 
 export const GridMediaCarouselCards = ({
@@ -34,7 +34,7 @@ export const GridMediaCarouselCards = ({
       <div className="relative">
         <Carousel
           opts={{
-            align: "start",
+            align: 'start',
             loop: true,
           }}
           setApi={setApi}
@@ -46,20 +46,21 @@ export const GridMediaCarouselCards = ({
                 key={item.id}
                 className="basis-full sm:basis-1/2  lg:basis-1/3 xl:basis-1/4"
               >
-                <MediaListCarouselCard
-                id_media={item.id}
+                <MediaCard
+                  id={item.id}
                   title={
-                    mediaType === "movie"
+                    mediaType === 'movie'
                       ? (item as Movie).title
                       : (item as TVShow).name
                   }
-                  backdropPath={item.backdrop_path}
-                  releaseYear={
-                    mediaType === "movie"
-                      ? (item as Movie).release_date.split("-")[0]
-                      : (item as TVShow).first_air_date.split("-")[0]
+                  backdrop_path={item.backdrop_path}
+                  release_year={
+                    mediaType === 'movie'
+                      ? (item as Movie).release_date.split('-')[0]
+                      : (item as TVShow).first_air_date.split('-')[0]
                   }
-                  mediaType={mediaType}
+                  media_type={mediaType}
+                  title_position="inside"
                 />
               </CarouselItem>
             ))}

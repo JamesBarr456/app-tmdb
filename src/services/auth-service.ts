@@ -46,14 +46,6 @@ class AuthService {
       await firebaseSignOut(auth);
 
       cookieStore.delete('token');
-
-      // const token = cookieStore.get('token')?.value;
-      // if (token) {
-      //   await authAdmin.revokeRefreshTokens(
-      //     await authAdmin.verifyIdToken(token)
-      //   );
-      // }
-
       return { success: true };
     } catch (error) {
       console.error('Error en logout:', error);
@@ -61,7 +53,6 @@ class AuthService {
     }
   }
 
-  // Método adicional recomendado para verificación de sesión
   async getCurrentUser() {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;

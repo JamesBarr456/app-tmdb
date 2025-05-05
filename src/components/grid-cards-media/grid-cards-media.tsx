@@ -1,11 +1,11 @@
-import { Movie, TVShow } from "@/types/media";
+import { Movie, TVShow } from '@/types/media';
 
-import { MediaListCard } from "../cards-media/card-media-list";
+import { MediaCard } from '../cards-media';
 
 interface Props {
   title_section: string;
   items: (Movie | TVShow)[];
-  mediaType: "movie" | "tv";
+  mediaType: 'movie' | 'tv';
 }
 export const GridMediaCards = ({ mediaType, items, title_section }: Props) => {
   return (
@@ -13,21 +13,22 @@ export const GridMediaCards = ({ mediaType, items, title_section }: Props) => {
       <h1 className="lg:text-3xl text-white">{title_section}</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {items.map((item) => (
-          <MediaListCard
+          <MediaCard
             key={item.id}
-            id_media={item.id}
+            id={item.id}
             title={
-              mediaType === "movie"
+              mediaType === 'movie'
                 ? (item as Movie).title
                 : (item as TVShow).name
             }
-            backdropPath={item.backdrop_path}
-            releaseYear={
-              mediaType === "movie"
-                ? (item as Movie).release_date.split("-")[0]
-                : (item as TVShow).first_air_date.split("-")[0]
+            backdrop_path={item.backdrop_path}
+            release_year={
+              mediaType === 'movie'
+                ? (item as Movie).release_date.split('-')[0]
+                : (item as TVShow).first_air_date.split('-')[0]
             }
-            mediaType={mediaType}
+            media_type={mediaType}
+            title_position="outside"
           />
         ))}
       </div>

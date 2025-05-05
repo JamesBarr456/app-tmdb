@@ -56,3 +56,10 @@ export interface MediaVideo {
   size: number;
   type: string;
 }
+
+
+export type MediaCardComponentProps = Pick<Media, 'id' | 'backdrop_path' | 'media_type'> & {
+  title: string;
+  release_year: string;
+  title_position: 'outside' | 'inside'
+};
