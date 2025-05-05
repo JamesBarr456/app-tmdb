@@ -9,20 +9,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar as ShadAvatar } from '@/components/ui/avatar';
 import { User as UserLucide } from 'lucide-react';
 import { logoutAction } from '@/actions/auth';
+import { useUser } from '@/context/context-user';
 
 function Avatar() {
-  const [isLogged, setIsLogged] = useState(false);
-
-  useEffect(() => {
-    setIsLogged(document.cookie.includes('token'));
-  }, []);
+  const { isAuthenticated, loading } = useUser();
 
   const handleLogout = async () => {
     try {
@@ -31,24 +27,27 @@ function Avatar() {
       console.log('Error al cerrar sesión:', error);
     }
   };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <ShadAvatar className="w-8 h-8 border-2 border-white cursor-pointer">
-          {!isLogged ? (
-            <UserLucide className=" text-gray-500" />
-          ) : (
+        <ShadAvatar className="w-8 h-8 border-2 border-white cursor-pointer flex items-center justify-center">
+          {loading ? (
+            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+          ) : isAuthenticated ? (
             <Image
               src="/images/image-avatar.png"
               alt="Avatar"
               width={32}
               height={32}
             />
+          ) : (
+            <UserLucide className="text-gray-500" />
           )}
         </ShadAvatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32">
-        {isLogged ? (
+        {isAuthenticated ? (
           <>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />

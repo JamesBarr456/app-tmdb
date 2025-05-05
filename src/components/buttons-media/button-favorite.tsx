@@ -5,6 +5,7 @@ import { addFavoriteAction, removeFavoriteAction } from '@/actions/favorites';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useUser } from '@/context/context-user';
 
 interface MediaSaveProps {
   media: {
@@ -19,24 +20,14 @@ interface MediaSaveProps {
 export const BookmarkButton = ({
   media: { id_media, title, backdropPath, releaseYear, mediaType },
 }: MediaSaveProps) => {
+  const { isAuthenticated } = useUser();
   const [isBookmarked, setIsBookmarked] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const toggleBookmark = async () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    // useEffect(() => {
-    //   const checkLogin = async () => {
-    //     const isAuth = await checkAuthAction();
-    //     setIsLoggedIn(isAuth);
-    //   };
-
-    //   checkLogin();
-    // }, []);
-
-    // if (!isLoggedIn) return null;
     try {
       if (isBookmarked) {
         await removeFavoriteAction(id_media);
@@ -57,7 +48,7 @@ export const BookmarkButton = ({
       setIsLoading(false);
     }
   };
-
+  if (!isAuthenticated) return null; // No renderizar el botón si no está autenticado
   return (
     <Button
       size={'icon'}
