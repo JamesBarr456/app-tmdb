@@ -9,6 +9,7 @@ interface UserContextProps {
   favorites: MovieData[] | undefined;
   loading: boolean;
   isAuthenticated: boolean;
+  refreshUser: () => Promise<void>;
 }
 interface MovieData {
   id: number;
@@ -22,6 +23,7 @@ const UserContext = createContext<UserContextProps>({
   favorites: [],
   loading: true,
   isAuthenticated: false,
+  refreshUser: async () => {},
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -29,40 +31,43 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [favorites, setFavorites] = useState<MovieData[] | undefined>([]);
 
-  useEffect(() => {
-    const init = async () => {
-      setLoading(true);
-      try {
-        const isLoggedIn = await checkAuthAction();
-        setIsAuthenticated(isLoggedIn);
-        if (!isLoggedIn) {
-          setFavorites([]);
-          return;
-        }
+  const refreshUser = async () => {
+    setLoading(true);
+    try {
+      const isLoggedIn = await checkAuthAction();
+      setIsAuthenticated(isLoggedIn);
 
-        const favoritesMediaUser = await getFavoritesAction();
-        if (favoritesMediaUser.success) {
-          setFavorites(favoritesMediaUser.data);
-        } else {
-          console.error(
-            'Error al obtener favoritos:',
-            favoritesMediaUser.message
-          );
-          setFavorites([]);
-        }
-      } catch (err) {
-        console.error('Error fetching favorites:', err);
-        setIsAuthenticated(false);
-      } finally {
-        setLoading(false);
+      if (!isLoggedIn) {
+        setFavorites([]);
+        return;
       }
-    };
 
-    init();
+      const favoritesMediaUser = await getFavoritesAction();
+      if (favoritesMediaUser.success) {
+        setFavorites(favoritesMediaUser.data);
+      } else {
+        console.error(
+          'Error al obtener favoritos:',
+          favoritesMediaUser.message
+        );
+        setFavorites([]);
+      }
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      setIsAuthenticated(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    refreshUser();
   }, []);
 
   return (
-    <UserContext.Provider value={{ favorites, loading, isAuthenticated }}>
+    <UserContext.Provider
+      value={{ favorites, loading, isAuthenticated, refreshUser }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -19,10 +19,11 @@ import { loginAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useUser } from '../../context/context-user';
 
 function FormLogin() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
-
+  const { refreshUser } = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const form = useForm<LoginFormType>({
@@ -36,7 +37,9 @@ function FormLogin() {
 
   useEffect(() => {
     if (state?.success) {
-      router.push('/home');
+      refreshUser().then(() => {
+        router.push('/home');
+      });
     } else if (state?.error) {
       console.log('Error:', state.error);
     }

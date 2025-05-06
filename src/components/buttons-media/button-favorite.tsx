@@ -4,8 +4,9 @@ import { addFavoriteAction, removeFavoriteAction } from '@/actions/favorites';
 
 import { Button } from '../ui/button';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '@/context/context-user';
+import { SpinnerLoading } from '../loading/custom-loading';
 
 interface MediaSaveProps {
   media: {
@@ -20,9 +21,17 @@ interface MediaSaveProps {
 export const BookmarkButton = ({
   media: { id_media, title, backdropPath, releaseYear, mediaType },
 }: MediaSaveProps) => {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, favorites } = useUser();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!favorites) return;
+
+    const isAlreadyFavorited = favorites.some((fav) => fav.id === id_media);
+
+    setIsBookmarked(isAlreadyFavorited);
+  }, [favorites, id_media]);
 
   const toggleBookmark = async () => {
     if (isLoading) return;
@@ -48,7 +57,8 @@ export const BookmarkButton = ({
       setIsLoading(false);
     }
   };
-  if (!isAuthenticated) return null; // No renderizar el botón si no está autenticado
+
+  if (!isAuthenticated) return null;
   return (
     <Button
       size={'icon'}
@@ -58,7 +68,7 @@ export const BookmarkButton = ({
       disabled={isLoading}
     >
       {isLoading ? (
-        <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+        <SpinnerLoading />
       ) : (
         <Image
           alt="Favorite Media"
