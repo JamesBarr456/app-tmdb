@@ -1,44 +1,47 @@
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
-
-
+import { checkAuthAction } from './actions/auth';
 
 const validPaths = [
   '/home',
   '/movies',
   '/tv',
   '/search',
-  /^\/movies\/[^/]+$/,  // Ej: /movies/123
-  /^\/tv\/[^/]+$/,      // Ej: /tv/456
+  '/favorites',
+  /^\/movies\/[^/]+$/,  
+  /^\/tv\/[^/]+$/,      
 ];
 
-// Middleware principal
+
+const authRequiredPaths = ['/favorites'];
+const publicOnlyPaths = ['/login', '/register'];
+
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
+  const isPublicOnly = publicOnlyPaths.includes(path);
+  const isAuthRequired = authRequiredPaths.includes(path);
 
-  // Redirigir si está autenticado e intenta ir a /login o /register
-  if (path === '/login' || path === '/register') {
-    const token = request.cookies.get('session')?.value;
+  const isValidPath = validPaths.some((validPath) =>
+    typeof validPath === 'string' ? path === validPath : validPath.test(path)
+  );
 
-    if (token) {
- 
-        return NextResponse.redirect(new URL('/home', request.url));
-    
-    }
+  // Sólo pedir autenticación si es necesario
+  const currentUser = (isPublicOnly || isAuthRequired) ? await checkAuthAction() : null;
 
-    return NextResponse.next(); // no hay token o no válido, dejar pasar
+  // Redirigir a /home si ya está logueado e intenta acceder a login o register
+  if (isPublicOnly) {
+    return currentUser
+      ? NextResponse.redirect(new URL('/home', request.url))
+      : NextResponse.next();
   }
 
-  // Verificar rutas válidas para la app
-  const isValidPath = validPaths.some((validPath) => {
-    if (typeof validPath === 'string') {
-      return path === validPath;
-    }
-    return validPath.test(path);
-  });
+  // Redirigir a login si no está autenticado e intenta acceder a /favorites (u otra protegida)
+  if (isAuthRequired && !currentUser) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
+  // Redirigir a not-found si no es una ruta válida
   if (!isValidPath && path !== '/') {
     return NextResponse.rewrite(new URL('/not-found', request.url));
   }
@@ -46,14 +49,13 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Configurar matcher para incluir login y register
 export const config = {
   matcher: [
     '/login',
     '/register',
     '/movies/:path*',
     '/tv/:path*',
-    '/bookmarked',
+    '/favorites',
     '/home',
     '/',
   ],
