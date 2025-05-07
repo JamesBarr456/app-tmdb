@@ -1,44 +1,39 @@
-
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { checkAuthAction } from './actions/auth';
+import { NextResponse } from 'next/server';
 
 const validPaths = [
   '/home',
   '/movies',
   '/tv',
   '/search',
+  '/login',
+  '/register',
   '/favorites',
-  /^\/movies\/[^/]+$/,  
-  /^\/tv\/[^/]+$/,      
+  /^\/movies\/[^/]+$/,
+  /^\/tv\/[^/]+$/,
 ];
 
-
-const authRequiredPaths = ['/favorites'];
+const privateOnlyPaths = ['/favorites'];
 const publicOnlyPaths = ['/login', '/register'];
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isPublicOnly = publicOnlyPaths.includes(path);
-  const isAuthRequired = authRequiredPaths.includes(path);
+  const isPrivateOnly = privateOnlyPaths.includes(path);
+  const token = request.cookies.get('token')?.value;
+  const isLoggedIn = !!token;
 
   const isValidPath = validPaths.some((validPath) =>
     typeof validPath === 'string' ? path === validPath : validPath.test(path)
   );
 
-  // Sólo pedir autenticación si es necesario
-  const currentUser = (isPublicOnly || isAuthRequired) ? await checkAuthAction() : null;
-
-  // Redirigir a /home si ya está logueado e intenta acceder a login o register
-  if (isPublicOnly) {
-    return currentUser
-      ? NextResponse.redirect(new URL('/home', request.url))
-      : NextResponse.next();
-  }
-
-  // Redirigir a login si no está autenticado e intenta acceder a /favorites (u otra protegida)
-  if (isAuthRequired && !currentUser) {
+  if (isPrivateOnly && !isLoggedIn) {
+    // Redirigir a /login si no está logueado e intenta acceder a rutas privadas
     return NextResponse.redirect(new URL('/login', request.url));
+  }
+  // Redirigir a /home si ya está logueado e intenta acceder a login o register
+  if (isPublicOnly && isLoggedIn) {
+    return NextResponse.redirect(new URL('/home', request.url));
   }
 
   // Redirigir a not-found si no es una ruta válida
@@ -55,8 +50,8 @@ export const config = {
     '/register',
     '/movies/:path*',
     '/tv/:path*',
-    '/favorites',
     '/home',
+    '/favorites',
     '/',
   ],
 };

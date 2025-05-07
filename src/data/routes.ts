@@ -1,19 +1,23 @@
-
-import { NavHomeIcon } from "@/components/icons/icon-nav-home";
-import { NavMoviesIcon } from "@/components/icons/icon-nav-movies";
-import { NavTvIcon } from "@/components/icons/icon-nav-tv-series";
+import { NavBookMarkIcon } from '@/components/icons/icon-nav-bookmark';
+import { NavHomeIcon } from '@/components/icons/icon-nav-home';
+import { NavMoviesIcon } from '@/components/icons/icon-nav-movies';
+import { NavTvIcon } from '@/components/icons/icon-nav-tv-series';
 
 export const routes = [
   {
-    path: "/home",
+    path: '/home',
     icon: NavHomeIcon,
   },
   {
-    path: "/movies",
+    path: '/movies',
     icon: NavMoviesIcon,
   },
   {
-    path: "/tv",
+    path: '/tv',
     icon: NavTvIcon,
+  },
+  {
+    path: '/favorites',
+    icon: NavBookMarkIcon,
   },
 ];

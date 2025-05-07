@@ -1,12 +1,17 @@
-import { getFavoritesAction } from '@/actions/favorites';
-import { MediaCard } from '@/components/cards-media';
 import Image from 'next/image';
+import { MediaCard } from '@/components/cards-media';
+import { getFavoritesAction } from '@/actions/favorites';
 
 export default async function Page() {
   const favoritesMediaUser = await getFavoritesAction();
-  if (!favoritesMediaUser.success || !favoritesMediaUser.data)
+  // Si no hay favoritos, mostrar un mensaje
+  if (
+    !favoritesMediaUser.success ||
+    favoritesMediaUser.data?.length === 0 ||
+    !favoritesMediaUser.data
+  ) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 text-center">
+      <div className="flex flex-col mt-20 items-center justify-center p-8 text-center">
         <div className="mb-4 rounded-full bg-gray-800 p-4">
           <Image
             alt="Favorite Media"
@@ -25,6 +30,8 @@ export default async function Page() {
         </p>
       </div>
     );
+  }
+
   const movies = favoritesMediaUser.data.filter(
     (item) => item.media_type === 'movie'
   );
