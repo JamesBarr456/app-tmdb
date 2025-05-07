@@ -59,6 +59,7 @@ export const BookmarkButton = ({
   };
 
   if (!isAuthenticated) return null;
+
   return (
     <Button
       size={'icon'}
