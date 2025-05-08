@@ -1,12 +1,13 @@
 import { Movie, TVShow } from '@/types/media';
 
 import { EmptySearch } from '@/components/search-input/empty-search';
-import { MediaListCard } from '@/components/cards-media/card-media-list';
+
 import { Paginations } from '@/components/pagination/Paginations';
 import { SearchX } from 'lucide-react';
 import { tmdbService } from '@/services/tmdb';
 import { PaginationSkeleton } from '@/components/skeletons';
 import { Suspense } from 'react';
+import { MediaCard } from '@/components/cards-media';
 
 interface Props {
   searchParams: Promise<{
@@ -45,21 +46,22 @@ export default async function Page({ searchParams }: Props) {
             <h1 className="lg:text-3xl text-white">Results</h1>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
               {data.results.map((media) => (
-                <MediaListCard
+                <MediaCard
                   key={media.id}
-                  id_media={media.id}
+                  id={media.id}
                   title={
                     media.media_type === 'movie'
                       ? (media as Movie).title
                       : (media as TVShow).name
                   }
-                  backdropPath={media.backdrop_path}
-                  releaseYear={
+                  backdrop_path={media.backdrop_path}
+                  release_year={
                     media.media_type === 'movie'
                       ? (media as Movie).release_date
                       : (media as TVShow).first_air_date
                   }
-                  mediaType={media.media_type}
+                  media_type={media.media_type}
+                  title_position="outside"
                 />
               ))}
             </div>

@@ -3,7 +3,6 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -13,9 +12,10 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar as ShadAvatar } from '@/components/ui/avatar';
-import { User as UserLucide } from 'lucide-react';
+import { LogIn, LogOut, User as UserLucide } from 'lucide-react';
 import { logoutAction } from '@/actions/auth';
 import { useUser } from '@/context/context-user';
+import { redirect } from 'next/navigation';
 
 function Avatar() {
   const { isAuthenticated, loading } = useUser();
@@ -23,6 +23,7 @@ function Avatar() {
   const handleLogout = async () => {
     try {
       await logoutAction();
+      redirect('/home');
     } catch (error) {
       console.log('Error al cerrar sesión:', error);
     }
@@ -51,16 +52,17 @@ function Avatar() {
           <>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+              <LogOut className="w-4 h-4 mr-2" />
+              Log out
+            </DropdownMenuItem>
           </>
         ) : (
-          <DropdownMenuItem>
-            <Link href="/login">Sign In</Link>
+          <DropdownMenuItem className="cursor-pointer" asChild>
+            <Link href="/login" className="flex items-center">
+              <LogIn className="w-4 h-4 mr-2" />
+              Sign In
+            </Link>
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

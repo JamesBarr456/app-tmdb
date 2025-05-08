@@ -28,15 +28,15 @@ export function middleware(request: NextRequest) {
   );
 
   if (isPrivateOnly && !isLoggedIn) {
-    // Redirigir a /login si no está logueado e intenta acceder a rutas privadas
+
     return NextResponse.redirect(new URL('/login', request.url));
   }
-  // Redirigir a /home si ya está logueado e intenta acceder a login o register
+ 
   if (isPublicOnly && isLoggedIn) {
     return NextResponse.redirect(new URL('/home', request.url));
   }
 
-  // Redirigir a not-found si no es una ruta válida
+  
   if (!isValidPath && path !== '/') {
     return NextResponse.rewrite(new URL('/not-found', request.url));
   }
