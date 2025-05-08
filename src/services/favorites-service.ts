@@ -1,4 +1,4 @@
-import { adminDB } from '@/lib/firebase/admin';
+import { adminDB } from '@/config/firebase/firebase-admin';
 import { authService } from './auth-service';
 
 interface MovieData {

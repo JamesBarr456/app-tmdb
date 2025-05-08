@@ -3,8 +3,8 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-import { auth } from '@/config/firebase';
-import { auth as authAdmin } from '@/lib/firebase/admin';
+import { auth } from '@/config/firebase/firebase-client';
+import { auth as authAdmin } from '@/config/firebase/firebase-admin';
 import { cookies } from 'next/headers';
 
 // Registro
