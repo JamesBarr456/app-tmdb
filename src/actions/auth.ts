@@ -1,6 +1,6 @@
 'use server';
 
-import { loginSchema, registerSchema } from '@/schemas/auth';
+import { loginSchema, registerSchema } from '@/schemas/auth-schema';
 
 import { AxiosError } from 'axios';
 import { authService } from '../services/auth-service';

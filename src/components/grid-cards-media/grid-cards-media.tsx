@@ -1,5 +1,4 @@
-import { Movie, TVShow } from '@/types/media';
-
+import { Movie, TVShow } from '@/types/tmdb/media';
 import { MediaCard } from '../cards-media';
 
 interface Props {

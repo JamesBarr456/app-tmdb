@@ -2,7 +2,7 @@ import { BadgeInteractiveList } from '@/components/badges/badge-interactive-list
 import { GridMediaCards } from '@/components/grid-cards-media/grid-cards-media';
 import { Paginations } from '@/components/pagination/Paginations';
 import { genresTvList } from '@/data/genres-media';
-import { tmdbService } from '@/services/tmdb';
+import { tmdbService } from '@/services/tmdb-service';
 
 interface Props {
   searchParams: Promise<{

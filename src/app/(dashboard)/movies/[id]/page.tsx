@@ -2,7 +2,7 @@ import { Calendar, ImageIcon, Play, Timer } from 'lucide-react';
 
 import { BadgeList } from '@/components/badges/badge-list';
 import Image from 'next/image';
-import { tmdbService } from '@/services/tmdb';
+import { tmdbService } from '@/services/tmdb-service';
 
 interface Props {
   params: Promise<{

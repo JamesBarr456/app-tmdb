@@ -1,14 +1,8 @@
-import {
-  Media,
-  Movie,
-  TMDBApiCastResponse,
-  TMDBApiVideoResponse,
-  TVShow,
-} from '@/types/media';
 
-import { TMDBApiResponse } from '../types/media';
-import { TMDB_ROUTES } from './tmdb-routes';
+import { TMDBApiCastResponse, TMDBApiResponse, TMDBApiVideoResponse } from '@/types/tmdb/api-response';
+import { TMDB_ROUTES } from '../routes/tmdb-api-routes';
 import { tmdbApi } from '@/config/axios';
+import { Media, Movie, TVShow } from '@/types/tmdb/media';
 
 
 class TMDBService {

@@ -8,9 +8,10 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
-import { Movie, TVShow } from '@/types/media';
+
 import { useAutoScroll } from '@/hooks/use-auto-scroll';
 import { MediaCard } from '../cards-media';
+import { Movie, TVShow } from '@/types/tmdb/media';
 
 interface MediaCarouselProps {
   title_section: string;

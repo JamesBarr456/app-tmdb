@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import { RegisterFormType, registerSchema } from '@/schemas/auth';
+import { RegisterFormType, registerSchema } from '@/schemas/auth-schema';
 import { useActionState, useEffect, useState } from 'react';
 
 import { Button } from '../ui/button';

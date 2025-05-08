@@ -1,11 +1,9 @@
-
-
-import { GridMediaCards } from "@/components/grid-cards-media/grid-cards-media";
-import { GridMediaCarouselCards } from "@/components/grid-cards-media/grid-cards-media-carousel";
-import { tmdbService } from "@/services/tmdb";
+import { GridMediaCards } from '@/components/grid-cards-media/grid-cards-media';
+import { GridMediaCarouselCards } from '@/components/grid-cards-media/grid-cards-media-carousel';
+import { tmdbService } from '@/services/tmdb-service';
 
 export default async function Page() {
-   const {movies, tvShows} = await tmdbService.getHomePageData();
+  const { movies, tvShows } = await tmdbService.getHomePageData();
   return (
     <div className="space-y-8">
       {/* Movies */}

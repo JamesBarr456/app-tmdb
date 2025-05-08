@@ -2,8 +2,8 @@ import { Film, ImageIcon, Tv } from 'lucide-react';
 import Image from 'next/image';
 import { InfoButton } from '../buttons-media/button-info';
 import { cn } from '@/lib/utils';
-import { MediaCardComponentProps } from '@/types/media';
 import { BookmarkButton } from '../buttons-media/button-favorite';
+import { MediaCardComponentProps } from '@/types/components/media-card';
 
 const MEDIA_TYPE_LABELS = {
   movie: 'Movie',
