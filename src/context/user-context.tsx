@@ -4,30 +4,24 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 import { getFavoritesAction } from '@/actions/favorites';
 import { useAuth } from './auth-context';
-
-interface MovieData {
-  id: number;
-  title: string;
-  backdrop_path: string | null;
-  release_date: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
+import { MediaCard } from '@/types/components/media-card';
 
 interface UserContextProps {
-  favorites: MovieData[] | undefined;
+  favorites: MediaCard[] | undefined;
   loading: boolean;
   refreshFavorites: () => Promise<void>;
+  setFavorites: React.Dispatch<React.SetStateAction<MediaCard[] | undefined>>;
 }
 
 const UserContext = createContext<UserContextProps>({
   favorites: undefined,
   loading: true,
   refreshFavorites: async () => {},
+  setFavorites: () => {},
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [favorites, setFavorites] = useState<MovieData[] | undefined>(
+  const [favorites, setFavorites] = useState<MediaCard[] | undefined>(
     undefined
   );
   const [loading, setLoading] = useState(true);
@@ -68,7 +62,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, [isAuthenticated, authLoading]);
 
   return (
-    <UserContext.Provider value={{ favorites, refreshFavorites, loading }}>
+    <UserContext.Provider
+      value={{ favorites, refreshFavorites, loading, setFavorites }}
+    >
       {children}
     </UserContext.Provider>
   );

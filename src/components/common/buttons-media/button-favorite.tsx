@@ -24,7 +24,7 @@ export const BookmarkButton = ({
   media: { id_media, title, backdropPath, releaseYear, mediaType },
 }: MediaSaveProps) => {
   const { isAuthenticated } = useAuth();
-  const { favorites, refreshFavorites } = useUser();
+  const { favorites, setFavorites } = useUser();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,7 +44,7 @@ export const BookmarkButton = ({
       if (isBookmarked) {
         await removeFavoriteAction(id_media);
         setIsBookmarked(false);
-        refreshFavorites();
+        setFavorites((prev) => prev?.filter((fav) => fav.id !== id_media));
       } else {
         await addFavoriteAction({
           id: id_media,
@@ -54,6 +54,21 @@ export const BookmarkButton = ({
           media_type: mediaType,
         });
         setIsBookmarked(true);
+        setFavorites((prev) => {
+          if (!prev) return [];
+          const exists = prev.some((fav) => fav.id === id_media);
+          if (exists) return prev;
+          return [
+            ...prev,
+            {
+              id: id_media,
+              title,
+              backdrop_path: backdropPath || '',
+              release_year: releaseYear,
+              media_type: mediaType,
+            },
+          ];
+        });
       }
     } catch (error) {
       console.error('Error al guardar/eliminar favorito:', error);

@@ -14,16 +14,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar as ShadAvatar } from '@/components/ui/avatar';
 import { logoutAction } from '@/actions/auth';
-import { redirect } from 'next/navigation';
+
 import { useAuth } from '@/context/auth-context';
+import { useRouter } from 'next/navigation';
 
 function Avatar() {
-  const { isAuthenticated, loading } = useAuth();
-
+  const { isAuthenticated, loading, refreshAuth } = useAuth();
+  const router = useRouter();
   const handleLogout = async () => {
     try {
       await logoutAction();
-      redirect('/home');
+      refreshAuth();
+      router.push('/home');
     } catch (error) {
       console.log('Error al cerrar sesión:', error);
     }
