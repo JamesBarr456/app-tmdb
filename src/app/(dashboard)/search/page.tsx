@@ -2,9 +2,9 @@ import { EmptySearch } from '@/components/search/search-empty';
 
 import { Paginations } from '@/components/pagination';
 import { SearchX } from 'lucide-react';
-import { tmdbService } from '@/services/tmdb-service';
+import { tmdbService } from '@/services/service-tmdb';
 
-import { MediaCard } from '@/components/media/cards';
+import { MediaCard } from '@/components/media/card';
 import { Movie, TVShow } from '@/types/tmdb/media';
 
 interface Props {

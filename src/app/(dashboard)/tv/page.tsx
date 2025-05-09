@@ -3,7 +3,7 @@ import { GridMediaCards } from '@/components/media/grids/grid-media';
 
 import { Paginations } from '@/components/pagination';
 import { genresTvList } from '@/data/genres-media';
-import { tmdbService } from '@/services/tmdb-service';
+import { tmdbService } from '@/services/service-tmdb';
 
 interface Props {
   searchParams: Promise<{

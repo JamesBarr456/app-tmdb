@@ -1,7 +1,7 @@
 import Avatar from './avatar';
 import Image from 'next/image';
 import Link from 'next/link';
-import { routes } from '@/routes/navbar-pages-routes';
+import { routes } from '@/routes/routes-navbar-pages';
 import { checkAuthAction } from '@/actions/auth';
 
 export const Navbar = async () => {

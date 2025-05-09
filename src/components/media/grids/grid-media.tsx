@@ -1,5 +1,5 @@
 import { Movie, TVShow } from '@/types/tmdb/media';
-import { MediaCard } from '../cards';
+import { MediaCard } from '../card';
 
 interface Props {
   title_section: string;

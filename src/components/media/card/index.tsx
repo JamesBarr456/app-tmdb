@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
 
-import { MediaCardComponentProps } from '@/types/components/media-card';
+import { MediaCard as MediaCardType } from '@/types/components/media-card';
 import { BookmarkButton } from '@/components/common/buttons-media/button-favorite';
 import { InfoButton } from '@/components/common/buttons-media/button-info';
 
@@ -19,7 +19,7 @@ export const MediaCard = ({
   release_year,
   media_type,
   title_position = 'outside',
-}: MediaCardComponentProps) => {
+}: MediaCardType) => {
   const MediaIcon = media_type === 'movie' ? Film : Tv;
 
   const image_url = backdrop_path

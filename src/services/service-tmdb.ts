@@ -1,6 +1,6 @@
 
 import { TMDBApiCastResponse, TMDBApiResponse, TMDBApiVideoResponse } from '@/types/tmdb/api-response';
-import { TMDB_ROUTES } from '../routes/tmdb-api-routes';
+import { TMDB_ROUTES } from '../routes/routes-tmdb-api';
 import { tmdbApi } from '@/config/axios';
 import { Media, Movie, TVShow } from '@/types/tmdb/media';
 

@@ -49,8 +49,8 @@ export const BookmarkButton = ({
         await addFavoriteAction({
           id: id_media,
           title,
-          backdrop_path: backdropPath,
-          release_date: releaseYear,
+          backdrop_path: backdropPath || '',
+          release_year: releaseYear,
           media_type: mediaType,
         });
         setIsBookmarked(true);

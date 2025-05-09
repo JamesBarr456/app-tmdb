@@ -1,9 +1,9 @@
 'use server';
 
-import { loginSchema, registerSchema } from '@/schemas/auth-schema';
+import { loginSchema, registerSchema } from '@/schemas/schema-auth';
 
 import { AxiosError } from 'axios';
-import { authService } from '../services/auth-service';
+import { authService } from '../services/service-auth';
 
 const { login, register, logout, getCurrentUser } = authService;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

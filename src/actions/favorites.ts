@@ -1,21 +1,15 @@
 'use server';
 
-import { favoriteService } from '@/services/favorites-service';
+import { favoriteService } from '@/services/service-favorites';
+import { MediaCard } from '@/types/components/media-card';
 import { revalidatePath } from 'next/cache';
 
-interface MovieData {
-  id: number;
-  title: string;
-  backdrop_path: string | null;
-  release_date: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
 
-export async function addFavoriteAction(movie: MovieData) {
+
+export async function addFavoriteAction(movie: MediaCard) {
   try {
     await favoriteService.addFavorite(movie);
-    revalidatePath('/favoritos'); // cambia la ruta si usás otra
+    revalidatePath('/favoritos'); 
     return { success: true };
   } catch (error) {
     console.error('Error al agregar favorito:', error);
@@ -26,7 +20,7 @@ export async function addFavoriteAction(movie: MovieData) {
 export async function removeFavoriteAction(movieId: number) {
   try {
     await favoriteService.removeFavorite(movieId);
-    revalidatePath('/favoritos'); // actualizá la vista si corresponde
+    revalidatePath('/favoritos'); 
     return { success: true };
   } catch (error) {
     console.error('Error al quitar favorito:', error);

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { MediaCard } from '@/components/media/cards';
+import { MediaCard } from '@/components/media/card';
 import { SpinnerLoading } from '@/components/loading';
 import { useUser } from '@/context/user-context';
 
