@@ -1,12 +1,13 @@
 'use client';
 
 import { addFavoriteAction, removeFavoriteAction } from '@/actions/favorites';
+import { useEffect, useState } from 'react';
 
 import { Button } from '../ui/button';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { useUser } from '@/context/context-user';
 import { SpinnerLoading } from '../loading/custom-loading';
+import { useAuth } from '@/context/auth-context';
+import { useUser } from '@/context/user-context';
 
 interface MediaSaveProps {
   media: {
@@ -21,7 +22,8 @@ interface MediaSaveProps {
 export const BookmarkButton = ({
   media: { id_media, title, backdropPath, releaseYear, mediaType },
 }: MediaSaveProps) => {
-  const { isAuthenticated, favorites } = useUser();
+  const { isAuthenticated } = useAuth();
+  const { favorites, refreshFavorites } = useUser();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,6 +43,7 @@ export const BookmarkButton = ({
       if (isBookmarked) {
         await removeFavoriteAction(id_media);
         setIsBookmarked(false);
+        refreshFavorites();
       } else {
         await addFavoriteAction({
           id: id_media,

@@ -16,14 +16,14 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { loginAction } from '@/actions/auth';
+import { useAuth } from '@/context/auth-context';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useUser } from '../../context/context-user';
 
 function FormLogin() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
-  const { refreshUser } = useUser();
+  const { refreshAuth } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const form = useForm<LoginFormType>({
@@ -37,7 +37,7 @@ function FormLogin() {
 
   useEffect(() => {
     if (state?.success) {
-      refreshUser().then(() => {
+      refreshAuth().then(() => {
         router.push('/home');
       });
     } else if (state?.error) {

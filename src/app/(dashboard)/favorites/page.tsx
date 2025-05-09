@@ -1,15 +1,18 @@
+'use client';
+
 import Image from 'next/image';
 import { MediaCard } from '@/components/cards-media';
-import { getFavoritesAction } from '@/actions/favorites';
+import { SpinnerLoading } from '@/components/loading/custom-loading';
+import { useUser } from '@/context/user-context';
 
-export default async function Page() {
-  const favoritesMediaUser = await getFavoritesAction();
+export default function Page() {
+  const { favorites, loading } = useUser();
+
+  if (loading || favorites === undefined)
+    return <SpinnerLoading color="text-bright-red" height={40} width={40} />;
+
   // Si no hay favoritos, mostrar un mensaje
-  if (
-    !favoritesMediaUser.success ||
-    favoritesMediaUser.data?.length === 0 ||
-    !favoritesMediaUser.data
-  ) {
+  if (!favorites || favorites.length === 0) {
     return (
       <div className="flex flex-col mt-20 items-center justify-center p-8 text-center">
         <div className="mb-4 rounded-full bg-gray-800 p-4">
@@ -32,12 +35,8 @@ export default async function Page() {
     );
   }
 
-  const movies = favoritesMediaUser.data.filter(
-    (item) => item.media_type === 'movie'
-  );
-  const tvSeries = favoritesMediaUser.data.filter(
-    (item) => item.media_type === 'tv'
-  );
+  const movies = favorites.filter((item) => item.media_type === 'movie');
+  const tvSeries = favorites.filter((item) => item.media_type === 'tv');
 
   return (
     <>

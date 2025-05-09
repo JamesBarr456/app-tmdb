@@ -1,7 +1,6 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
-import { UserProvider } from '@/context/context-user';
 
 export const metadata: Metadata = {
   title: 'Entertainment',
@@ -20,9 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`font-outfit bg-dark-blue antialiased`}>
-        <UserProvider>{children}</UserProvider>
-      </body>
+      <body className={`font-outfit bg-dark-blue antialiased`}>{children}</body>
     </html>
   );
 }

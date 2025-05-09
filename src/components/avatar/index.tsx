@@ -8,17 +8,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { LogIn, LogOut, User as UserLucide } from 'lucide-react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar as ShadAvatar } from '@/components/ui/avatar';
-import { LogIn, LogOut, User as UserLucide } from 'lucide-react';
 import { logoutAction } from '@/actions/auth';
-import { useUser } from '@/context/context-user';
 import { redirect } from 'next/navigation';
+import { useAuth } from '@/context/auth-context';
 
 function Avatar() {
-  const { isAuthenticated, loading } = useUser();
+  const { isAuthenticated, loading } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -43,7 +43,7 @@ function Avatar() {
               height={32}
             />
           ) : (
-            <UserLucide className="text-gray-500" />
+            <UserLucide className="text-white" />
           )}
         </ShadAvatar>
       </DropdownMenuTrigger>

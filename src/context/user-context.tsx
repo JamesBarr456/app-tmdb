@@ -2,46 +2,47 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { checkAuthAction } from '@/actions/auth';
 import { getFavoritesAction } from '@/actions/favorites';
+import { useAuth } from './auth-context';
 
-interface UserContextProps {
-  favorites: MovieData[] | undefined;
-  loading: boolean;
-  isAuthenticated: boolean;
-  refreshUser: () => Promise<void>;
-}
 interface MovieData {
   id: number;
   title: string;
   backdrop_path: string | null;
   release_date: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any; // para campos adicionales
+  [key: string]: any;
 }
+
+interface UserContextProps {
+  favorites: MovieData[] | undefined;
+  loading: boolean;
+  refreshFavorites: () => Promise<void>;
+}
+
 const UserContext = createContext<UserContextProps>({
-  favorites: [],
+  favorites: undefined,
   loading: true,
-  isAuthenticated: false,
-  refreshUser: async () => {},
+  refreshFavorites: async () => {},
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [favorites, setFavorites] = useState<MovieData[] | undefined>(
+    undefined
+  );
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [favorites, setFavorites] = useState<MovieData[] | undefined>([]);
 
-  const refreshUser = async () => {
+  const { isAuthenticated, loading: authLoading } = useAuth();
+
+  const refreshFavorites = async () => {
+    if (!isAuthenticated) {
+      setFavorites([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
-      const isLoggedIn = await checkAuthAction();
-      setIsAuthenticated(isLoggedIn);
-
-      if (!isLoggedIn) {
-        setFavorites([]);
-        return;
-      }
-
       const favoritesMediaUser = await getFavoritesAction();
       if (favoritesMediaUser.success) {
         setFavorites(favoritesMediaUser.data);
@@ -53,21 +54,21 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setFavorites([]);
       }
     } catch (err) {
-      console.error('Error fetching user data:', err);
-      setIsAuthenticated(false);
+      console.error('Error fetching favorites:', err);
+      setFavorites([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    refreshUser();
-  }, []);
+    if (!authLoading) {
+      refreshFavorites();
+    }
+  }, [isAuthenticated, authLoading]);
 
   return (
-    <UserContext.Provider
-      value={{ favorites, loading, isAuthenticated, refreshUser }}
-    >
+    <UserContext.Provider value={{ favorites, refreshFavorites, loading }}>
       {children}
     </UserContext.Provider>
   );
