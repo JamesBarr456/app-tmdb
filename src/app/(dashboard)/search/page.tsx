@@ -1,13 +1,11 @@
-import { Movie, TVShow } from '@/types/media';
+import { EmptySearch } from '@/components/search/search-empty';
 
-import { EmptySearch } from '@/components/search-input/empty-search';
-
-import { Paginations } from '@/components/pagination/Paginations';
+import { Paginations } from '@/components/pagination';
 import { SearchX } from 'lucide-react';
 import { tmdbService } from '@/services/tmdb-service';
-import { PaginationSkeleton } from '@/components/skeletons';
-import { Suspense } from 'react';
-import { MediaCard } from '@/components/cards-media';
+
+import { MediaCard } from '@/components/media/cards';
+import { Movie, TVShow } from '@/types/tmdb/media';
 
 interface Props {
   searchParams: Promise<{
@@ -65,9 +63,8 @@ export default async function Page({ searchParams }: Props) {
                 />
               ))}
             </div>
-            <Suspense fallback={<PaginationSkeleton />}>
-              <Paginations totalPages={data.total_pages} />
-            </Suspense>
+
+            <Paginations totalPages={data.total_pages} />
           </>
         )}
       </section>

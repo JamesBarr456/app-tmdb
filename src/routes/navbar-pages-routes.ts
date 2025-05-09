@@ -1,7 +1,7 @@
-import { NavBookMarkIcon } from '@/components/icons/icon-nav-bookmark';
-import { NavHomeIcon } from '@/components/icons/icon-nav-home';
-import { NavMoviesIcon } from '@/components/icons/icon-nav-movies';
-import { NavTvIcon } from '@/components/icons/icon-nav-tv-series';
+import { NavBookMarkIcon } from '@/components/common/icons/icon-nav-bookmark';
+import { NavHomeIcon } from '@/components/common/icons/icon-nav-home';
+import { NavMoviesIcon } from '@/components/common/icons/icon-nav-movies';
+import { NavTvIcon } from '@/components/common/icons/icon-nav-tv-series';
 
 export const routes = [
   {

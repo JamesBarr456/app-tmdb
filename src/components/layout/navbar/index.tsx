@@ -1,4 +1,4 @@
-import Avatar from '../avatar';
+import Avatar from './avatar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { routes } from '@/routes/navbar-pages-routes';

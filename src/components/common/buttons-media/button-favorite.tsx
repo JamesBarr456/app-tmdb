@@ -3,11 +3,12 @@
 import { addFavoriteAction, removeFavoriteAction } from '@/actions/favorites';
 import { useEffect, useState } from 'react';
 
-import { Button } from '../ui/button';
 import Image from 'next/image';
-import { SpinnerLoading } from '../loading/custom-loading';
+
 import { useAuth } from '@/context/auth-context';
 import { useUser } from '@/context/user-context';
+import { Button } from '@/components/ui/button';
+import { SpinnerLoading } from '@/components/loading';
 
 interface MediaSaveProps {
   media: {

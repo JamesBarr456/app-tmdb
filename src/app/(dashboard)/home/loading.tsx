@@ -1,4 +1,4 @@
-import { SpinnerLoading } from "@/components/loading/custom-loading";
+import { SpinnerLoading } from '@/components/loading';
 
 export default function Loading() {
   return (

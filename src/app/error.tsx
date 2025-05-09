@@ -1,7 +1,7 @@
 'use client';
 
-import { Navbar } from '@/components/navbar';
-import { SearchInput } from '@/components/search-input';
+import { Navbar } from '@/components/layout/navbar';
+import { SearchInput } from '@/components/search/searh-input';
 import { Button } from '@/components/ui/button';
 import { MoveLeft, RefreshCcw } from 'lucide-react';
 import Image from 'next/image';

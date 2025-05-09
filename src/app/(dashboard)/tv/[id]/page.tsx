@@ -1,6 +1,6 @@
 import { Calendar, ImageIcon, Play } from 'lucide-react';
 
-import { BadgeList } from '@/components/badges/badge-list';
+import { BadgeList } from '@/components/common/badges/badge-list';
 import Image from 'next/image';
 import { tmdbService } from '@/services/tmdb-service';
 

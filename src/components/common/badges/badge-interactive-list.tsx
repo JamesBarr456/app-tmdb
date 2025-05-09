@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState, useTransition } from 'react';
 
-import { Badge } from '../ui/badge';
-import { SpinnerLoading } from '../loading/custom-loading';
+import { Badge } from '../../ui/badge';
+import { SpinnerLoading } from '../../loading';
 import clsx from 'clsx';
 
 interface BadgeItem {

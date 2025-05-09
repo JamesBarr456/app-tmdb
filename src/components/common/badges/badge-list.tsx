@@ -1,5 +1,5 @@
-import { Badge } from "../ui/badge";
-import clsx from "clsx";
+import { Badge } from '../../ui/badge';
+import clsx from 'clsx';
 
 interface BadgeItem {
   id: number;
@@ -15,12 +15,12 @@ interface BadgeListProps {
 export function BadgeList({
   items,
   title,
-  badgeContainerClassName = "flex flex-wrap gap-2",
+  badgeContainerClassName = 'flex flex-wrap gap-2',
 }: BadgeListProps) {
   return (
     <div className="mb-6">
       {title && <h3 className="mb-2 md:text-2xl font-bold ">{title}</h3>}
-      <div className={clsx("", badgeContainerClassName)}>
+      <div className={clsx('', badgeContainerClassName)}>
         {items.map(({ id, name }) => (
           <Badge
             key={id}

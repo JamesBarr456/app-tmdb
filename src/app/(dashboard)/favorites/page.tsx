@@ -1,15 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import { MediaCard } from '@/components/cards-media';
-import { SpinnerLoading } from '@/components/loading/custom-loading';
+import { MediaCard } from '@/components/media/cards';
+import { SpinnerLoading } from '@/components/loading';
 import { useUser } from '@/context/user-context';
 
 export default function Page() {
   const { favorites, loading } = useUser();
 
   if (loading || favorites === undefined)
-    return <SpinnerLoading color="text-bright-red" height={40} width={40} />;
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <SpinnerLoading color="text-bright-red" height={40} width={40} />
+      </div>
+    );
 
   // Si no hay favoritos, mostrar un mensaje
   if (!favorites || favorites.length === 0) {

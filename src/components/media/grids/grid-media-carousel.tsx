@@ -10,8 +10,9 @@ import {
 } from '@/components/ui/carousel';
 
 import { useAutoScroll } from '@/hooks/use-auto-scroll';
-import { MediaCard } from '../cards-media';
+
 import { Movie, TVShow } from '@/types/tmdb/media';
+import { MediaCard } from '../cards';
 
 interface MediaCarouselProps {
   title_section: string;

@@ -1,6 +1,7 @@
-import { BadgeInteractiveList } from '@/components/badges/badge-interactive-list';
-import { GridMediaCards } from '@/components/grid-cards-media/grid-cards-media';
-import { Paginations } from '@/components/pagination/Paginations';
+import { BadgeInteractiveList } from '@/components/common/badges/badge-interactive-list';
+import { GridMediaCards } from '@/components/media/grids/grid-media';
+
+import { Paginations } from '@/components/pagination';
 import { genresTvList } from '@/data/genres-media';
 import { tmdbService } from '@/services/tmdb-service';
 

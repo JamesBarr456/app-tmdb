@@ -18,7 +18,7 @@ export const InputWithLabel = ({
   ...props
 }: InputWithLabelProps) => {
   const [focused, setFocused] = useState(false);
-
+  void focused;
   return (
     <div className="w-full space-y-1">
       <div className="flex items-center justify-between">
