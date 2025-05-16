@@ -9,3 +9,8 @@ export type FormState = {
   errors?: FormError[];
   error?: FormError; // Para errores generales
 };
+
+export type AuthError = {
+  code?: string;
+  message: string;
+};

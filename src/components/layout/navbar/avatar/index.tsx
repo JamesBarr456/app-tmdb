@@ -24,7 +24,7 @@ function Avatar() {
   const handleLogout = async () => {
     try {
       await logoutAction();
-      refreshAuth();
+      await refreshAuth();
       router.push('/home');
     } catch (error) {
       console.log('Error al cerrar sesión:', error);

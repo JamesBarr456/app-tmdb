@@ -77,7 +77,7 @@ export const BookmarkButton = ({
     }
   };
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated || favorites?.length === 0) return null;
 
   return (
     <Button
