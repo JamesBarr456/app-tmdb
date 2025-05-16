@@ -11,7 +11,6 @@ import {
 } from '../ui/form';
 import { LoginFormType, loginSchema } from '@/schemas/schema-auth';
 import { useActionState, useEffect, useState } from 'react';
-
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
@@ -20,12 +19,14 @@ import { useAuth } from '@/context/auth-context';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { useToast } from '@/hooks/use-toast';
 function FormLogin() {
-  const [state, formAction, isPending] = useActionState(loginAction, null);
   const { refreshAuth } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
+  const [state, formAction, isPending] = useActionState(loginAction, {});
+  const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<LoginFormType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -36,14 +37,28 @@ function FormLogin() {
   });
 
   useEffect(() => {
-    if (state?.success) {
-      refreshAuth().then(() => {
-        router.push('/home');
-      });
-    } else if (state?.error) {
-      console.log('Error:', state.error);
+    if (state.success) {
+      refreshAuth().then(() => router.push('/home'));
+      return;
     }
-  }, [state]);
+    // Manejar errores de validación de campos
+    if (state.errors?.length) {
+      state.errors.forEach(({ field, message }) => {
+        if (field) {
+          form.setError(field as keyof LoginFormType, { message });
+        }
+      });
+      return;
+    }
+    // Manejar errores generales
+    if (state.error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: state.error.message,
+      });
+    }
+  }, [state, form, toast, refreshAuth, router]);
 
   return (
     <Form {...form}>

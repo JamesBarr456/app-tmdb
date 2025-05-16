@@ -1,7 +1,7 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
-
+import { Toaster } from '@/components/ui/toaster';
 export const metadata: Metadata = {
   title: 'Entertainment',
   description: 'Movies and TV Series from TMDB',
@@ -19,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`font-outfit bg-dark-blue antialiased`}>{children}</body>
+      <body className={`font-outfit bg-dark-blue antialiased`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

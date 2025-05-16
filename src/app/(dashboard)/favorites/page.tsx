@@ -53,7 +53,7 @@ export default function Page() {
               id={item.id}
               title={item.title}
               backdrop_path={item.backdrop_path || ''}
-              release_year={item.release_date}
+              release_year={item.release_date || ''}
               media_type="movie"
               title_position="outside"
             />
@@ -69,7 +69,7 @@ export default function Page() {
               id={item.id}
               title={item.title}
               backdrop_path={item.backdrop_path || ''}
-              release_year={item.release_date}
+              release_year={item.release_date || ''}
               media_type="tv"
               title_position="outside"
             />

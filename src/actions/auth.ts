@@ -1,13 +1,13 @@
 'use server';
 
 import { loginSchema, registerSchema } from '@/schemas/schema-auth';
-
-import { AxiosError } from 'axios';
 import { authService } from '../services/service-auth';
+import { FormState } from '@/types/error';
+import { handleAuthError } from '@/utils/auth-error';
 
 const { login, register, logout, getCurrentUser } = authService;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function registerAction(_: any, formData: FormData) {
+export async function registerAction(_: FormState, formData: FormData): Promise<FormState> {
   const data = Object.fromEntries(formData.entries());
 
   const registerData = {
@@ -19,11 +19,12 @@ export async function registerAction(_: any, formData: FormData) {
   const validatedFields = registerSchema.safeParse(registerData);
 
   if (!validatedFields.success) {
-    const errorDetails = validatedFields.error.errors.map((err) => ({
-      field: err.path[0],
-      message: err.message,
-    }));
-    return { error: errorDetails };
+    return {
+      errors: validatedFields.error.errors.map((err) => ({
+        field: err.path[0] as string,
+        message: err.message,
+      })),
+    };
   }
 
   const { confirmPassword, ...newUser } = validatedFields.data;
@@ -35,40 +36,34 @@ export async function registerAction(_: any, formData: FormData) {
       success: true,
     };
   } catch (error) {
-    return { success: false, error: (error as Error).message };
+    return handleAuthError(error);
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function loginAction(_: any, formData: FormData) {
+
+export async function loginAction(_: FormState, formData: FormData): Promise<FormState> {
   const data = Object.fromEntries(formData.entries());
   const loginData = {
-    email: data.email,
-    password: data.password,
+    email: data.email as string,
+    password: data.password as string,
   };
 
+  // Validación con Zod
   const validatedFields = loginSchema.safeParse(loginData);
-
   if (!validatedFields.success) {
-    const errorDetails = validatedFields.error.errors.map((err) => ({
-      field: err.path[0],
-      message: err.message,
-    }));
-    return { error: errorDetails };
+    return {
+      errors: validatedFields.error.errors.map((err) => ({
+        field: err.path[0] as string,
+        message: err.message,
+      })),
+    };
   }
 
   try {
     await login(validatedFields.data);
-    return {
-      success: true,
-    };
+    return { success: true };
   } catch (error) {
-    if (error instanceof AxiosError) {
-      return { error: error.response?.data || error.message };
-    } else if (error instanceof Error) {
-      return { error: error.message };
-    }
-    return { error: 'Ocurrió un error inesperado' };
+    return handleAuthError(error);
   }
 }
 

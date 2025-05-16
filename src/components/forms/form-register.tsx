@@ -19,13 +19,15 @@ import { registerAction } from '@/actions/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/hooks/use-toast';
 
 function FormRegister() {
-  const [state, formAction, isPending] = useActionState(registerAction, null);
-
+  const { toast } = useToast();
+  const router = useRouter();
+  const [state, formAction, isPending] = useActionState(registerAction, {});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const router = useRouter();
+
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -40,9 +42,25 @@ function FormRegister() {
     if (state?.success) {
       router.push('/login');
     } else if (state?.error) {
-      console.log(state.error);
+      // Manejar errores de validación de campos
+      if (state.errors?.length) {
+        state.errors.forEach(({ field, message }) => {
+          if (field) {
+            form.setError(field as keyof RegisterFormType, { message });
+          }
+        });
+        return;
+      }
+      // Manejar errores generales
+      if (state.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: state.error.message,
+        });
+      }
     }
-  }, [state]);
+  }, [state, form, toast, router]);
 
   return (
     <Form {...form}>
