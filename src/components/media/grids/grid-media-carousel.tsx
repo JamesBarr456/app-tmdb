@@ -20,11 +20,11 @@ interface MediaCarouselProps {
   mediaType: 'movie' | 'tv';
 }
 
-export const GridMediaCarouselCards = ({
+export default function GridMediaCarouselCards({
   title_section,
   items,
   mediaType,
-}: MediaCarouselProps) => {
+}: MediaCarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   useAutoScroll(api);
 
@@ -73,4 +73,4 @@ export const GridMediaCarouselCards = ({
       </div>
     </section>
   );
-};
+}

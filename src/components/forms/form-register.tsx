@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
+import { SpinnerLoading } from '../loading/spinner';
 
 function FormRegister() {
   const { toast } = useToast();
@@ -158,9 +159,9 @@ function FormRegister() {
         <Button
           type="submit"
           className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
-          disabled={!form.formState.isValid || isPending}
+          disabled={!form.formState.isValid || isPending || state.success}
         >
-          {isPending ? 'Loading' : 'Create on account'}
+          {isPending ? <SpinnerLoading color="white" /> : 'Create on account'}
         </Button>
       </form>
     </Form>

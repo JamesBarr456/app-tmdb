@@ -1,42 +1,18 @@
 'use client';
 
-import Image from 'next/image';
 import { MediaCard } from '@/components/media/card';
-import { SpinnerLoading } from '@/components/loading';
 import { useUser } from '@/context/user-context';
+import LoadingScreen from '@/components/loading/screen-page';
+import EmptyFavorites from '@/components/feedbacks/empty-favorites';
 
 export default function Page() {
   const { favorites, loading } = useUser();
 
-  if (loading || favorites === undefined)
-    return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <SpinnerLoading color="text-bright-red" height={40} width={40} />
-      </div>
-    );
+  if (loading || favorites === undefined) return <LoadingScreen />;
 
   // Si no hay favoritos, mostrar un mensaje
   if (!favorites || favorites.length === 0) {
-    return (
-      <div className="flex flex-col mt-20 items-center justify-center p-8 text-center">
-        <div className="mb-4 rounded-full bg-gray-800 p-4">
-          <Image
-            alt="Favorite Media"
-            src={'/icon/icon-bookmark-empty.svg'}
-            width={12}
-            height={14}
-            sizes="(max-width: 768px) 100vw, 12px"
-          />
-        </div>
-        <h3 className="mb-2 text-xl font-medium text-white">
-          No hay favoritos
-        </h3>
-        <p className="text-gray-400">
-          No se pudo cargar la información o aún no has agregado ninguna
-          película o serie a favoritos.
-        </p>
-      </div>
-    );
+    return <EmptyFavorites />;
   }
 
   const movies = favorites.filter((item) => item.media_type === 'movie');

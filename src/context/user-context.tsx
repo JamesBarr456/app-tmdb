@@ -55,6 +55,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!authLoading) {
       refreshFavorites();

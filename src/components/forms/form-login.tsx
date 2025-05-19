@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
+import { SpinnerLoading } from '../loading/spinner';
 function FormLogin() {
   const { refreshAuth } = useAuth();
   const router = useRouter();
@@ -123,9 +124,13 @@ function FormLogin() {
         <Button
           type="submit"
           className="w-full py-4 bg-bright-red hover:bg-white hover:text-dark-blue font-light"
-          disabled={!form.formState.isValid || isPending}
+          disabled={!form.formState.isValid || isPending || state.success}
         >
-          {isPending ? 'Loading' : 'Login to your account'}
+          {isPending ? (
+            <SpinnerLoading color="white" />
+          ) : (
+            'Login to your account'
+          )}
         </Button>
       </form>
     </Form>

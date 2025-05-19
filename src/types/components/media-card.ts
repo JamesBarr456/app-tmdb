@@ -5,4 +5,5 @@ export type MediaCard = Pick<Media, 'id' | 'backdrop_path' | 'media_type'> & {
   release_year: string;
   title_position?: 'outside' | 'inside';
   release_date?: string
+  addedAt?: string;
 };

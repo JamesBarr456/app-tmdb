@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useAuth } from '@/context/auth-context';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
-import { SpinnerLoading } from '@/components/loading';
+import { SpinnerLoading } from '@/components/loading/spinner';
 
 interface MediaSaveProps {
   media: {

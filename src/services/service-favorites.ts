@@ -29,6 +29,7 @@ class FavoriteService {
 
     if (snapshot.empty) return [];
     return snapshot.docs.map((doc) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { addedAt, ...rest } = doc.data() as MediaCard;
   return rest;
 });

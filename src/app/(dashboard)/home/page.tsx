@@ -1,5 +1,6 @@
 import { GridMediaCards } from '@/components/media/grids/grid-media';
-import { GridMediaCarouselCards } from '@/components/media/grids/grid-media-carousel';
+import GridMediaCarouselCards from '@/components/media/grids/grid-media-carousel';
+
 import { tmdbService } from '@/services/service-tmdb';
 
 export default async function Page() {

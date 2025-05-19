@@ -34,7 +34,7 @@ function Avatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <ShadAvatar className="w-8 h-8 border-2 border-white cursor-pointer flex items-center justify-center">
+        <ShadAvatar className="w-8 h-8 border-2 hover:border-white border-greyish-blue cursor-pointer flex items-center justify-center group">
           {loading ? (
             <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
           ) : isAuthenticated ? (
@@ -43,9 +43,10 @@ function Avatar() {
               alt="Avatar"
               width={32}
               height={32}
+              className="group-hover:opacity-80"
             />
           ) : (
-            <UserLucide className="text-white" />
+            <UserLucide className="text-greyish-blue group-hover:text-white " />
           )}
         </ShadAvatar>
       </DropdownMenuTrigger>
