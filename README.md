@@ -82,11 +82,16 @@
 
 ## 📸 Capturas
 
-1. ![Captura 1](./public/capturas/captura-1.png)
-2. ![Captura 2](./public/capturas/captura-2.png)
-3. ![Captura 3](./public/capturas/captura-3.png)
-4. ![Captura 4](./public/capturas/captura-4.png)
-5. ![Captura 5](./public/capturas/captura-5.png)
+1. Home Page
+   ![Captura 1](./public/capturas/captura-1.png)
+2. Movies Page
+   ![Captura 2](./public/capturas/captura-2.png)
+3. Login Page
+   ![Captura 3](./public/capturas/captura-3.png)
+4. Favorite Page
+   ![Captura 4](./public/capturas/captura-4.png)
+5. Found Page
+   ![Captura 5](./public/capturas/captura-5.png)
 
 ---
 
