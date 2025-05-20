@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 Movie App
 
-## Getting Started
+**Movie App** es una aplicación web que permite explorar y visualizar películas o series utilizando la API de [TMDB](https://www.themoviedb.org/). Podés descubrir tendencias, buscar contenidos por nombre o categoría, y si te registrás, podrás guardar tus favoritas o armar una lista personalizada de títulos que querés ver.
 
-First, run the development server:
+## 🌐 Demo online
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+👉 [https://moviescope-6uerdxj53-jamesbarr456s-projects.vercel.app/home](https://moviescope-6uerdxj53-jamesbarr456s-projects.vercel.app/home)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tecnologías utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js 15+**
+- **Tailwind CSS**
+- **ShadCn/UI**
+- **Axios**
+- **Firebase** (autenticación y base de datos)
+- **TMDB API**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚀 Instalación y ejecución
 
-To learn more about Next.js, take a look at the following resources:
+1. **Cloná el repositorio:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/JamesBarr456/app-tmdb
+   cd app-tmdb
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Instalá las dependencias:**
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Configurá las variables de entorno:**  
+   Creá un archivo `.env.local` en la raíz del proyecto y agregá lo siguiente con tus propias claves de acceso:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```env
+   # --------------------------
+   # VARIABLES PÚBLICAS (CLIENTE)
+   # --------------------------
+
+   # TMDB API
+   TMDB_API_TOKEN="TU_TOKEN_TMDB"
+
+   # Firebase config (frontend SDK)
+   NEXT_PUBLIC_FIREBASE_API_KEY="TU_API_KEY"
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="TU_AUTH_DOMAIN"
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="TU_STORAGE_BUCKET"
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="TU_SENDER_ID"
+   NEXT_PUBLIC_FIREBASE_APP_ID="TU_APP_ID"
+   NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="TU_MEASUREMENT_ID"
+
+   # --------------------------
+   # VARIABLES PRIVADAS (BACKEND)
+   # --------------------------
+
+   # Firebase Admin SDK (solo backend)
+   FIREBASE_PRIVATE_KEY="TU_PRIVATE_KEY"
+   FIREBASE_CLIENT_EMAIL="TU_CLIENT_EMAIL"
+   FIREBASE_PROJECT_ID="TU_PROJECT_ID"
+   ```
+
+4. **Ejecutá el proyecto en desarrollo:**
+
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## ✨ Características principales
+
+- 🔍 **Buscador general** de películas y series por nombre.
+- 🎯 **Filtrado por categorías** para contenido de tipo `movie` o `tv`.
+- 🔐 **Sistema de autenticación** y **registro de usuarios** con Firebase.
+- 🛡️ **Protección de rutas** utilizando middleware de Next.js y verificación de tokens con el SDK Admin de Firebase.
+- ❤️ **Sistema de favoritos** personalizado (disponible solo con sesión activa).
+- ⭐ **Listas personalizadas** de títulos para ver más tarde.
+
+---
+
+## 📸 Capturas
+
+1. ![Captura 1](./public/capturas/captura-1.png)
+2. ![Captura 2](./public/capturas/captura-2.png)
+3. ![Captura 3](./public/capturas/captura-3.png)
+4. ![Captura 4](./public/capturas/captura-4.png)
+5. ![Captura 5](./public/capturas/captura-5.png)
+
+---
+
+## 👤 Autor
+
+**Barreto Santiago Emmanuel**  
+👤 [LinkedIn](https://www.linkedin.com/in/santiago-emmanuel-barreto/)
+
+📁 [Repositorio GitHub](https://github.com/JamesBarr456/app-tmdb)
